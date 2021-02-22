@@ -10,6 +10,7 @@ import { KeyboardListeners } from './app/ui-events/keyboard-listener';
 import { LoggerPlugin } from './app/store/plugins/logger.plugin';
 import { ActionTypes } from './app/enums/actions-type.enum';
 import { SaveHistory } from './app/store/actions/save-history.action';
+import { ColorPickerComponent } from './app/components/color-picker-component';
 
 const store = new Store(
   reducers,
@@ -21,7 +22,10 @@ const store = new Store(
 store.dispatch(new SaveHistory());
 const canvas = new Canvas(store);
 const cursorListener = new CursorListener(store, canvas);
-const keyboardListeners = new KeyboardListeners(store);
+const keyboardListeners = new KeyboardListeners(
+  store,
+  () => new ColorPickerComponent(store, canvas),
+);
 const renderer = new Renderer(store, canvas);
 
 canvas.appendCanvasTo(document.body);
