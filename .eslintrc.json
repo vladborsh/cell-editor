@@ -16,10 +16,7 @@
     "plugin:@typescript-eslint/recommended-requiring-type-checking",
     "plugin:prettier/recommended"
   ],
-  "ignorePatterns": [
-    "*.config.*",
-    "*.html"
-  ],
+  "ignorePatterns": ["*.config.*", "*.html"],
   "plugins": ["@typescript-eslint", "prettier", "simple-import-sort", "import", "prefer-arrow", "jsdoc"],
   "rules": {},
   "overrides": [

@@ -1,4 +1,4 @@
-import { MoveMouse } from '../actions/move-mouse';
+import { MoveMouse } from '../actions/move-mouse.action';
 import { SaveHistory } from '../actions/save-history.action';
 import { SetColor } from '../actions/set-color.action';
 import { UpdateCell } from '../actions/update-cell.action';
