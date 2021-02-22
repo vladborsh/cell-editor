@@ -1,7 +1,7 @@
 import { Tools } from '../enums/tools.enum';
 import { GlobalState } from '../interfaces/global-state.interface';
 
-const DEFAULT_SIZE = 40;
+export const DEFAULT_SIZE = 40;
 const DEFAULT_STEP = 10;
 
 export const defaultState: GlobalState = {
@@ -16,6 +16,6 @@ export const defaultState: GlobalState = {
   cellNumberX: DEFAULT_SIZE,
   grid: Array.from({ length: DEFAULT_SIZE }, () => Array.from({ length: DEFAULT_SIZE }, () => 'ffffff')),
   history: [],
-  historyHead: 0,
+  historyHead: -1,
   tool: Tools.BRUSH,
 };

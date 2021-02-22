@@ -1,7 +1,7 @@
-import { MoveMouse } from '../actions/move-mouse.action';
-import { SaveHistory } from '../actions/save-history.action';
-import { SetColor } from '../actions/set-color.action';
-import { UpdateCell } from '../actions/update-cell.action';
+import { MoveMouse } from '../store/actions/move-mouse.action';
+import { SaveHistory } from '../store/actions/save-history.action';
+import { SetColor } from '../store/actions/set-color.action';
+import { UpdateCell } from '../store/actions/update-cell.action';
 import { Canvas } from '../canvas';
 import { Tools } from '../enums/tools.enum';
 import { Vector } from '../interfaces/vector.interface';

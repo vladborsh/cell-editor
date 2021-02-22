@@ -1,7 +1,9 @@
 export function copy<T>(arr: T[][]) {
   const newArr = [];
 
-  for (const row of arr) {
+  for (let row of arr) {
     newArr.push([...row]);
   }
+
+  return newArr;
 }

@@ -6,4 +6,5 @@ export enum ActionTypes {
   SET_TOOL = 'SET_TOOL',
   UNDO = 'UNDO',
   REDO = 'REDO',
+  CLEAR = 'CLEAR',
 }

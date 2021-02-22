@@ -1,4 +1,4 @@
-import { ActionTypes } from '../enums/actions-type.enum';
+import { ActionTypes } from '../../enums/actions-type.enum';
 
 export class SetColor {
   readonly type = ActionTypes.SET_COLOR;

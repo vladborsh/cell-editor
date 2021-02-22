@@ -44,7 +44,7 @@
   },
   "scripts": {
     "start": "webpack serve --mode=development --progress",
-    "build": "webpack",
+    "build": "webpack --mode=development --progress",
     "build:prod": "webpack --config webpack.config.prod.js",
     "lint": "npx prettier --write . && npx eslint . --fix"
   },
