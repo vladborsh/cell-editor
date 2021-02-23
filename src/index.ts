@@ -11,6 +11,7 @@ import { LoggerPlugin } from './app/store/plugins/logger.plugin';
 import { ActionTypes } from './app/enums/actions-type.enum';
 import { SaveHistory } from './app/store/actions/save-history.action';
 import { ColorPickerComponent } from './app/components/color-picker-component';
+import { FileExporter } from './app/io/file-exporter';
 
 const store = new Store(
   reducers,
@@ -25,6 +26,7 @@ const cursorListener = new CursorListener(store, canvas);
 const keyboardListeners = new KeyboardListeners(
   store,
   () => new ColorPickerComponent(store, canvas),
+  new FileExporter(store),
 );
 const renderer = new Renderer(store, canvas);
 

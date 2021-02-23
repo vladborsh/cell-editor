@@ -5,9 +5,14 @@ import { Tools } from "../enums/tools.enum";
 import { Store } from "../store/store";
 import { Clear } from "../store/actions/clear.action";
 import { ColorPickerComponent } from "../components/color-picker-component";
+import { FileExporter } from "../io/file-exporter";
 
 export class KeyboardListeners {
-  constructor(private store: Store, private paletteComponentFct: () => ColorPickerComponent) {}
+  constructor(
+    private store: Store,
+    private paletteComponentFct: () => ColorPickerComponent,
+    private fileExporter: FileExporter,
+  ) {}
 
   public install(): void {
     document.addEventListener('keydown', (event: KeyboardEvent) => {
@@ -33,6 +38,11 @@ export class KeyboardListeners {
       }
       if (event.metaKey && event.code === 'KeyZ') {
         this.store.dispatch(new Undo());
+        return;
+      }
+      if (event.metaKey && event.code === 'KeyS') {
+        event.preventDefault();
+        this.fileExporter.export();
         return;
       }
     })
