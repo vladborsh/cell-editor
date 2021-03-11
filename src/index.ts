@@ -13,21 +13,11 @@ import { SaveHistory } from './app/store/actions/save-history.action';
 import { ColorPickerComponent } from './app/components/color-picker-component';
 import { FileExporter } from './app/io/file-exporter';
 
-const store = new Store(
-  reducers,
-  defaultState,
-  [
-    new LoggerPlugin(ActionTypes.MOVE_MOUSE)
-  ]
-);
+const store = new Store(reducers, defaultState, [ new LoggerPlugin(ActionTypes.MOVE_MOUSE)]);
 store.dispatch(new SaveHistory());
 const canvas = new Canvas(store);
 const cursorListener = new CursorListener(store, canvas);
-const keyboardListeners = new KeyboardListeners(
-  store,
-  () => new ColorPickerComponent(store, canvas),
-  new FileExporter(store),
-);
+const keyboardListeners = new KeyboardListeners(store, () => new ColorPickerComponent(store, canvas), new FileExporter(store));
 const renderer = new Renderer(store, canvas);
 
 canvas.appendCanvasTo(document.body);

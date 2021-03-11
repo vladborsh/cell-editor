@@ -46,7 +46,8 @@
     "start": "webpack serve --mode=development --progress",
     "build": "webpack --mode=development --progress",
     "build:prod": "webpack --config webpack.config.prod.js",
-    "lint": "npx prettier --write . && npx eslint . --fix"
+    "lint": "npx prettier --write . && npx eslint . --fix",
+    "public": "cp -a dist/. public/"
   },
   "engines": {
     "node": ">=12.0.0"
