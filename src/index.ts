@@ -12,12 +12,20 @@ import { ActionTypes } from './app/enums/actions-type.enum';
 import { SaveHistory } from './app/store/actions/save-history.action';
 import { ColorPickerComponent } from './app/components/color-picker-component';
 import { FileExporter } from './app/io/file-exporter';
+import { BresenhamAlgorithm } from './app/renderer-calc/bresenham-algorithm';
+import { ResizeBrushComponent } from './app/components/resize-brush-component';
 
 const store = new Store(reducers, defaultState, [ new LoggerPlugin(ActionTypes.MOVE_MOUSE)]);
 store.dispatch(new SaveHistory());
 const canvas = new Canvas(store);
-const cursorListener = new CursorListener(store, canvas);
-const keyboardListeners = new KeyboardListeners(store, () => new ColorPickerComponent(store, canvas), new FileExporter(store));
+const bresenhamAlgorithm = new BresenhamAlgorithm();
+const cursorListener = new CursorListener(store, canvas, bresenhamAlgorithm);
+const keyboardListeners = new KeyboardListeners(
+  store,
+  () => new ColorPickerComponent(store, canvas),
+  () => new ResizeBrushComponent(store, canvas),
+  new FileExporter(store),
+);
 const renderer = new Renderer(store, canvas);
 
 canvas.appendCanvasTo(document.body);

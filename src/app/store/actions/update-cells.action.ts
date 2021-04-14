@@ -1,8 +1,8 @@
 import { ActionTypes } from '../../enums/actions-type.enum';
 import { Vector } from '../../interfaces/vector.interface';
 
-export class UpdateCell {
-  readonly type = ActionTypes.UPDATE_CELL;
+export class UpdateCells {
+  readonly type = ActionTypes.UPDATE_CELLS;
 
-  constructor(public readonly position: Vector) {}
+  constructor(public readonly positions: Vector[]) {}
 }

@@ -6,16 +6,31 @@ import { Store } from "../store/store";
 import { Clear } from "../store/actions/clear.action";
 import { ColorPickerComponent } from "../components/color-picker-component";
 import { FileExporter } from "../io/file-exporter";
+import { ResizeBrushComponent } from "../components/resize-brush-component";
 
 export class KeyboardListeners {
   constructor(
     private store: Store,
-    private paletteComponentFct: () => ColorPickerComponent,
+    private colorPikerComponentFct: () => ColorPickerComponent,
+    private resizeBrushComponentFct: () => ResizeBrushComponent,
     private fileExporter: FileExporter,
   ) {}
 
   public install(): void {
     document.addEventListener('keydown', (event: KeyboardEvent) => {
+      if (event.metaKey && event.code === 'KeyY') {
+        this.store.dispatch(new Redo());
+        return;
+      }
+      if (event.metaKey && event.code === 'KeyZ') {
+        this.store.dispatch(new Undo());
+        return;
+      }
+      if (event.metaKey && event.code === 'KeyS') {
+        event.preventDefault();
+        this.fileExporter.export();
+        return;
+      }
       if (event.code === 'KeyP') {
         this.store.dispatch(new SetTool(Tools.PIPET))
         return;
@@ -29,20 +44,11 @@ export class KeyboardListeners {
         return;
       }
       if (event.code === 'KeyC') {
-        this.paletteComponentFct().setup(document.body);
+        this.colorPikerComponentFct().setup(document.body);
         return;
       }
-      if (event.metaKey && event.code === 'KeyY') {
-        this.store.dispatch(new Redo());
-        return;
-      }
-      if (event.metaKey && event.code === 'KeyZ') {
-        this.store.dispatch(new Undo());
-        return;
-      }
-      if (event.metaKey && event.code === 'KeyS') {
-        event.preventDefault();
-        this.fileExporter.export();
+      if (event.code === 'KeyS') {
+        this.resizeBrushComponentFct().setup(document.body);
         return;
       }
     })

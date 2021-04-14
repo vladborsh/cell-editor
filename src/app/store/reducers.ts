@@ -2,15 +2,16 @@ import { Actions } from './actions/actions';
 import { MoveMouse } from './actions/move-mouse.action';
 import { Redo } from './actions/redo.action';
 import { SaveHistory } from './actions/save-history.action';
-import { SetColor } from './actions/set-color.action';
+import { UpdateColor } from './actions/update-color.action';
 import { SetTool } from './actions/set-tool.action';
 import { Undo } from './actions/undo.action';
-import { UpdateCell } from './actions/update-cell.action';
+import { UpdateCells } from './actions/update-cells.action';
 import { ActionTypes } from '../enums/actions-type.enum';
 import { GlobalState } from '../interfaces/global-state.interface';
 import { copy } from '../utils/copy.helper';
 import { Clear } from './actions/clear.action';
 import { DEFAULT_SIZE } from './default-state';
+import { UpdateBrushSize } from './actions/update-brush-size.action';
 
 function saveHistory(state: GlobalState): { history: string[][][], historyHead: number } {
   const historyHead = state.historyHead + 1;
@@ -32,12 +33,17 @@ export const reducers: Record<ActionTypes, (action: Actions, state: GlobalState)
       ...saveHistory(state)
     };
   },
-  [ActionTypes.SET_COLOR]: ({ color }: SetColor, state: GlobalState) => {
+  [ActionTypes.UPDATE_COLOR]: ({ color }: UpdateColor, state: GlobalState) => {
     return { ...state, color };
   },
-  [ActionTypes.UPDATE_CELL]: ({ position: { x, y } }: UpdateCell, state: GlobalState) => {
-    if (x >= 0 && x < state.grid.length && y >= 0 && y < state.grid[0].length) {
-      state.grid[x][y] = state.color;
+  [ActionTypes.UPDATE_BRUSH_SIZE]: ({ brushSize }: UpdateBrushSize, state: GlobalState) => {
+    return { ...state, brushSize };
+  },
+  [ActionTypes.UPDATE_CELLS]: ({ positions }: UpdateCells, state: GlobalState) => {
+    for (const { x, y } of positions) {
+      if (x >= 0 && x < state.grid.length && y >= 0 && y < state.grid[0].length) {
+        state.grid[x][y] = state.color;
+      }
     }
     return state;
   },

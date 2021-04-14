@@ -1,5 +1,5 @@
 import { Canvas } from "../canvas";
-import { SetColor } from "../store/actions/set-color.action";
+import { UpdateColor } from "../store/actions/update-color.action";
 import { Store } from "../store/store";
 
 export class ColorPickerComponent {
@@ -23,12 +23,12 @@ export class ColorPickerComponent {
     input.click();
 
     input.addEventListener('input', () => {
-      this.store.dispatch(new SetColor(input.value.replaceAll('#', '')));
+      this.store.dispatch(new UpdateColor(input.value.replaceAll('#', '')));
       picker.remove();
     });
 
     document.addEventListener('click', () => {
       picker.remove();
-    })
+    });
   }
 }
