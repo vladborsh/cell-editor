@@ -15,10 +15,10 @@ export class ColorPickerComponent {
     const input = (<HTMLElement>template).querySelector('input');
     const picker = (<HTMLElement>template).querySelector('.color-picker-container');
     const rect = this.canvas.canvas.getBoundingClientRect();
-    input.value = color;
     (<HTMLElement>picker).style.left = `${rect.x + cursorPosition.x}px`;
     (<HTMLElement>picker).style.top = `${rect.y + cursorPosition.y}px`;
     anchor.append(template);
+    input.value = `#${color}`;
     input.focus();
     input.click();
 
