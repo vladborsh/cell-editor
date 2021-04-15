@@ -14,8 +14,19 @@ import { ColorPickerComponent } from './app/components/color-picker-component';
 import { FileExporter } from './app/io/file-exporter';
 import { BresenhamAlgorithm } from './app/renderer-calc/bresenham-algorithm';
 import { ResizeBrushComponent } from './app/components/resize-brush-component';
+import { StorageService } from './app/services/storage.service';
+import { StoragePlugin } from './app/store/plugins/storage.plugin';
 
-const store = new Store(reducers, defaultState, [ new LoggerPlugin(ActionTypes.MOVE_MOUSE)]);
+const storageService = new StorageService();
+const store = new Store(
+  reducers,
+  storageService,
+  defaultState,
+  [
+    new LoggerPlugin(ActionTypes.MOVE_MOUSE),
+    new StoragePlugin(storageService, ActionTypes.MOVE_MOUSE),
+  ],
+);
 store.dispatch(new SaveHistory());
 const canvas = new Canvas(store);
 const bresenhamAlgorithm = new BresenhamAlgorithm();

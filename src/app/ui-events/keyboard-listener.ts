@@ -18,7 +18,12 @@ export class KeyboardListeners {
 
   public install(): void {
     document.addEventListener('keydown', (event: KeyboardEvent) => {
+      if (event.shiftKey && event.metaKey && event.code === 'KeyR') {
+        this.store.dispatch(new Clear())
+        return;
+      }
       if (event.metaKey && event.code === 'KeyY') {
+        event.preventDefault();
         this.store.dispatch(new Redo());
         return;
       }
@@ -37,10 +42,6 @@ export class KeyboardListeners {
       }
       if (event.code === 'KeyB') {
         this.store.dispatch(new SetTool(Tools.BRUSH))
-        return;
-      }
-      if (event.code === 'KeyR') {
-        this.store.dispatch(new Clear())
         return;
       }
       if (event.code === 'KeyC') {

@@ -2,6 +2,7 @@ import { Actions } from './actions/actions';
 import { ActionTypes } from '../enums/actions-type.enum';
 import { GlobalState } from '../interfaces/global-state.interface';
 import { PluginInterface } from './plugins/pluggin.interface';
+import { StorageService } from '../services/storage.service';
 
 export class Store {
   private state: GlobalState;
@@ -10,10 +11,12 @@ export class Store {
 
   constructor(
     private reducers: Record<ActionTypes, (action: Actions, state: GlobalState) => GlobalState>,
+    storageService: StorageService,
     defaultState: GlobalState,
     private plugins: PluginInterface[],
   ) {
-    this.state = defaultState;
+    console.log(storageService.isEmpty(), storageService.pullFromStorage())
+    this.state = storageService.isEmpty() ? defaultState : storageService.pullFromStorage();
     this.pluginFns = this.plugins.map(plugin => plugin.apply());
   }
 
