@@ -48,6 +48,10 @@ export class KeyboardListeners {
         this.store.dispatch(new SetTool(Tools.ELLIPSE))
         return;
       }
+      if (event.code === 'KeyF') {
+        this.store.dispatch(new SetTool(Tools.FILL))
+        return;
+      }
       if (event.code === 'KeyC') {
         this.colorPikerComponentFct().setup(document.body);
         return;

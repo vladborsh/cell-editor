@@ -24,11 +24,12 @@ export class ColorPickerComponent {
 
     input.addEventListener('input', () => {
       this.store.dispatch(new UpdateColor(input.value.replaceAll('#', '')));
-      picker.remove();
     });
 
-    document.addEventListener('click', () => {
-      picker.remove();
+    document.addEventListener('click', (event) => {
+      if (event.target !== input) {
+        picker.remove();
+      }
     });
   }
 }

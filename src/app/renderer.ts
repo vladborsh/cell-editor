@@ -52,6 +52,12 @@ export class Renderer {
       this.canvas.context.arc(x, y, cellSize / 2, 0, 2 * Math.PI);
       this.canvas.context.stroke();
     }
+
+    if (tool === Tools.FILL) {
+      this.canvas.context.beginPath();
+      this.canvas.context.arc(x, y, cellSize / 2, 0, 2 * Math.PI);
+      this.canvas.context.stroke();
+    }
   }
 
   private drawGrid(): void {

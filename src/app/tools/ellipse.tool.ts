@@ -22,8 +22,6 @@ export class EllipseTool {
   }
 
   public onMove({ x, y }: Vector): void {
-    console.log(this.startPoint, this.ellipseRadiuses)
-
     if (!this.startPoint || !this.ellipseRadiuses) {
       return;
     }
@@ -46,6 +44,7 @@ export class EllipseTool {
   }
 
   public onDispose(): void {
+    console.log('on dispose');
     const { toolTemporalLayer } = this.store.getSnapshot();
 
     this.store.dispatch(new UpdateCells(toolTemporalLayer));

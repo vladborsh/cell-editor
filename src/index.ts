@@ -17,6 +17,7 @@ import { StorageService } from './app/services/storage.service';
 import { StoragePlugin } from './app/store/plugins/storage.plugin';
 import { BresenhamEllipseAlgorithm } from './app/renderering/bresenham-ellipse-algorithm';
 import { EllipseTool } from './app/tools/ellipse.tool';
+import { FillTool } from './app/tools/fill.tool';
 
 const storageService = new StorageService();
 const store = new Store(
@@ -32,11 +33,13 @@ store.dispatch(new SaveHistory());
 const canvas = new Canvas(store);
 const bresenhamEllipseAlgorithm = new BresenhamEllipseAlgorithm();
 const ellipseTool = new EllipseTool(bresenhamEllipseAlgorithm, store);
+const fillTool = new FillTool(store);
 const cursorListener = new CursorListener(
   store,
   canvas,
   bresenhamEllipseAlgorithm,
   ellipseTool,
+  fillTool,
 );
 const keyboardListeners = new KeyboardListeners(
   store,

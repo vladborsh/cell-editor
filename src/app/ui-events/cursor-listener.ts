@@ -8,6 +8,7 @@ import { Vector } from '../interfaces/vector.interface';
 import { Store } from '../store/store';
 import { BresenhamEllipseAlgorithm } from '../renderering/bresenham-ellipse-algorithm';
 import { EllipseTool } from '../tools/ellipse.tool';
+import { FillTool } from '../tools/fill.tool';
 
 export class CursorListener {
   private isMousePressed = false;
@@ -17,6 +18,7 @@ export class CursorListener {
     private canvas: Canvas,
     private bresenhamEllipseAlgorithm: BresenhamEllipseAlgorithm,
     private ellipseTool: EllipseTool,
+    private fillTool: FillTool,
   ) {}
 
   public install(): void {
@@ -33,6 +35,10 @@ export class CursorListener {
 
     if (tool === Tools.ELLIPSE) {
       this.ellipseTool.onSetup({ x, y });
+    }
+
+    if (tool === Tools.FILL) {
+      this.fillTool.onSetup({ x, y });
     }
 
     this.movePressedMouse({ x, y });
