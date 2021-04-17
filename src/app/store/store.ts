@@ -15,7 +15,6 @@ export class Store {
     defaultState: GlobalState,
     private plugins: PluginInterface[],
   ) {
-    console.log(storageService.isEmpty(), storageService.pullFromStorage())
     this.state = storageService.isEmpty() ? defaultState : storageService.pullFromStorage();
     this.pluginFns = this.plugins.map(plugin => plugin.apply());
   }

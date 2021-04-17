@@ -60,7 +60,7 @@ export class BresenhamEllipseAlgorithm {
       }
     }
 
-    return pixelsBatch;
+    return pixelsBatch.map(({x ,y}) => ({ x: Math.ceil(x), y: Math.ceil(y) }));
   }
 }
 

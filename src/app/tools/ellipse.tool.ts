@@ -44,7 +44,6 @@ export class EllipseTool {
   }
 
   public onDispose(): void {
-    console.log('on dispose');
     const { toolTemporalLayer } = this.store.getSnapshot();
 
     this.store.dispatch(new UpdateCells(toolTemporalLayer));
