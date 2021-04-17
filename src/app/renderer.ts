@@ -1,4 +1,5 @@
 import { Canvas } from './canvas';
+import { Tools } from './enums/tools.enum';
 import { Store } from './store/store';
 
 export class Renderer {
@@ -7,6 +8,7 @@ export class Renderer {
   public render(): void {
     this.clearCanvas();
     this.drawGrid();
+    this.drawToolTemporalLayer();
     this.drawBrush();
     requestAnimationFrame(() => this.render.bind(this)());
   }
@@ -30,10 +32,26 @@ export class Renderer {
       cursorPosition: { x, y },
       brushSize,
       cellSize,
+      tool,
     } = this.store.getSnapshot();
-    this.canvas.context.beginPath();
-    this.canvas.context.arc(x, y, brushSize * cellSize, 0, 2 * Math.PI);
-    this.canvas.context.stroke();
+
+    if (tool === Tools.BRUSH) {
+      this.canvas.context.beginPath();
+      this.canvas.context.arc(x, y, brushSize * cellSize, 0, 2 * Math.PI);
+      this.canvas.context.stroke();
+    }
+
+    if (tool === Tools.PIPET) {
+      this.canvas.context.beginPath();
+      this.canvas.context.arc(x, y, cellSize, 0, 2 * Math.PI);
+      this.canvas.context.stroke();
+    }
+
+    if (tool === Tools.ELLIPSE) {
+      this.canvas.context.beginPath();
+      this.canvas.context.arc(x, y, cellSize / 2, 0, 2 * Math.PI);
+      this.canvas.context.stroke();
+    }
   }
 
   private drawGrid(): void {
@@ -49,5 +67,23 @@ export class Renderer {
       }
     }
     this.canvas.context.lineWidth = 1;
+  }
+
+  private drawToolTemporalLayer(): void {
+    if (!this.canvas.context) {
+      return;
+    }
+
+    const { toolTemporalLayer, cellSize, color } = this.store.getSnapshot();
+
+    if (!toolTemporalLayer || !toolTemporalLayer.length) {
+      return;
+    }
+
+    this.canvas.context.fillStyle = `#${color}`;
+
+    for (const { x, y } of toolTemporalLayer) {
+      this.canvas.context.fillRect(x * cellSize, y * cellSize, cellSize, cellSize);
+    }
   }
 }

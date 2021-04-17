@@ -15,4 +15,5 @@ export interface GlobalState {
   history: string[][][];
   historyHead: number;
   tool: Tools;
+  toolTemporalLayer: Vector[];
 }

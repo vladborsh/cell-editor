@@ -6,12 +6,18 @@ import { Canvas } from '../canvas';
 import { Tools } from '../enums/tools.enum';
 import { Vector } from '../interfaces/vector.interface';
 import { Store } from '../store/store';
-import { BresenhamAlgorithm } from '../renderer-calc/bresenham-algorithm';
+import { BresenhamEllipseAlgorithm } from '../renderering/bresenham-ellipse-algorithm';
+import { EllipseTool } from '../tools/ellipse.tool';
 
 export class CursorListener {
   private isMousePressed = false;
 
-  constructor(private store: Store, private canvas: Canvas, private bresenhamAlgorithm: BresenhamAlgorithm) {}
+  constructor(
+    private store: Store,
+    private canvas: Canvas,
+    private bresenhamEllipseAlgorithm: BresenhamEllipseAlgorithm,
+    private ellipseTool: EllipseTool,
+  ) {}
 
   public install(): void {
     this.canvas.subscribe('mousedown', (event) => this.onMouseDown(event as MouseEvent));
@@ -21,11 +27,16 @@ export class CursorListener {
 
   private onMouseDown(event: MouseEvent): void {
     const { top, left } = this.canvas.canvas.getBoundingClientRect();
-    const { cellSize } = this.store.getSnapshot();
-    this.movePressedMouse({
-      x: Math.floor((event.x - left) / cellSize),
-      y: Math.floor((event.y - top) / cellSize),
-    });
+    const { cellSize, tool } = this.store.getSnapshot();
+    const x = Math.floor((event.x - left) / cellSize);
+    const y = Math.floor((event.y - top) / cellSize);
+
+    if (tool === Tools.ELLIPSE) {
+      this.ellipseTool.onSetup({ x, y });
+    }
+
+    this.movePressedMouse({ x, y });
+
     this.isMousePressed = true;
   }
 
@@ -48,8 +59,14 @@ export class CursorListener {
   }
 
   private onMouseUp(): void {
+    const { tool } = this.store.getSnapshot();
+
     this.isMousePressed = false;
     this.store.dispatch(new SaveHistory());
+
+    if (tool === Tools.ELLIPSE) {
+      this.ellipseTool.onDispose();
+    }
   }
 
   private movePressedMouse({ x, y }: Vector): void {
@@ -58,12 +75,19 @@ export class CursorListener {
       if (brushSize === 1) {
         this.store.dispatch(new UpdateCells([{ x, y }]));
       } else {
-        this.store.dispatch(new UpdateCells(this.bresenhamAlgorithm.getCircleRendering({ x, y }, brushSize - 1)));
+        this.store.dispatch(new UpdateCells(
+          this.bresenhamEllipseAlgorithm.getRenderPoints(
+            { x, y },
+            { x: brushSize - 1, y: brushSize - 1 }
+          )
+        ));
       }
-      return;
     }
     if (tool === Tools.PIPET) {
       this.store.dispatch(new UpdateColor(grid[x][y]));
+    }
+    if (tool === Tools.ELLIPSE) {
+      this.ellipseTool.onMove({ x, y });
     }
   }
 }

@@ -12,10 +12,11 @@ import { ActionTypes } from './app/enums/actions-type.enum';
 import { SaveHistory } from './app/store/actions/save-history.action';
 import { ColorPickerComponent } from './app/components/color-picker-component';
 import { FileExporter } from './app/io/file-exporter';
-import { BresenhamAlgorithm } from './app/renderer-calc/bresenham-algorithm';
 import { ResizeBrushComponent } from './app/components/resize-brush-component';
 import { StorageService } from './app/services/storage.service';
 import { StoragePlugin } from './app/store/plugins/storage.plugin';
+import { BresenhamEllipseAlgorithm } from './app/renderering/bresenham-ellipse-algorithm';
+import { EllipseTool } from './app/tools/ellipse.tool';
 
 const storageService = new StorageService();
 const store = new Store(
@@ -29,8 +30,14 @@ const store = new Store(
 );
 store.dispatch(new SaveHistory());
 const canvas = new Canvas(store);
-const bresenhamAlgorithm = new BresenhamAlgorithm();
-const cursorListener = new CursorListener(store, canvas, bresenhamAlgorithm);
+const bresenhamEllipseAlgorithm = new BresenhamEllipseAlgorithm();
+const ellipseTool = new EllipseTool(bresenhamEllipseAlgorithm, store);
+const cursorListener = new CursorListener(
+  store,
+  canvas,
+  bresenhamEllipseAlgorithm,
+  ellipseTool,
+);
 const keyboardListeners = new KeyboardListeners(
   store,
   () => new ColorPickerComponent(store, canvas),

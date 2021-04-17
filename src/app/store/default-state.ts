@@ -18,4 +18,5 @@ export const defaultState: GlobalState = {
   history: [],
   historyHead: -1,
   tool: Tools.BRUSH,
+  toolTemporalLayer: [],
 };
