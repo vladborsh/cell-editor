@@ -20,6 +20,7 @@ import { EllipseTool } from './app/tools/ellipse.tool';
 import { FillTool } from './app/tools/fill.tool';
 import { LineTool } from './app/tools/line.tool';
 import { BresenhamLineAlgorithm } from './app/renderering/bresenham-line-algorithm';
+import { RectangleTool } from './app/tools/rectangle.tool';
 
 const storageService = new StorageService();
 const store = new Store(
@@ -37,6 +38,7 @@ const bresenhamEllipseAlgorithm = new BresenhamEllipseAlgorithm();
 const bresenhamLineAlgorithm = new BresenhamLineAlgorithm();
 const ellipseTool = new EllipseTool(bresenhamEllipseAlgorithm, store);
 const fillTool = new FillTool(store);
+const rectangleTool = new RectangleTool(store);
 const lineTool = new LineTool(store, bresenhamLineAlgorithm);
 const cursorListener = new CursorListener(
   store,
@@ -45,6 +47,7 @@ const cursorListener = new CursorListener(
   ellipseTool,
   fillTool,
   lineTool,
+  rectangleTool,
 );
 const keyboardListeners = new KeyboardListeners(
   store,

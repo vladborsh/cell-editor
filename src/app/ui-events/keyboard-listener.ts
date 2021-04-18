@@ -48,6 +48,10 @@ export class KeyboardListeners {
         this.store.dispatch(new SetTool(Tools.ELLIPSE))
         return;
       }
+      if (event.code === 'KeyR') {
+        this.store.dispatch(new SetTool(Tools.RECTANGLE))
+        return;
+      }
       if (event.code === 'KeyF') {
         this.store.dispatch(new SetTool(Tools.FILL))
         return;

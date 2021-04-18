@@ -4,4 +4,5 @@ export enum Tools {
   ELLIPSE,
   FILL,
   LINE,
+  RECTANGLE,
 }
