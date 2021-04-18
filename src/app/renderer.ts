@@ -47,13 +47,7 @@ export class Renderer {
       this.canvas.context.stroke();
     }
 
-    if (tool === Tools.ELLIPSE) {
-      this.canvas.context.beginPath();
-      this.canvas.context.arc(x, y, cellSize / 2, 0, 2 * Math.PI);
-      this.canvas.context.stroke();
-    }
-
-    if (tool === Tools.FILL) {
+    if (tool === Tools.ELLIPSE || tool === Tools.FILL || tool === Tools.LINE) {
       this.canvas.context.beginPath();
       this.canvas.context.arc(x, y, cellSize / 2, 0, 2 * Math.PI);
       this.canvas.context.stroke();

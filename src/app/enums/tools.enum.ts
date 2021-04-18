@@ -3,4 +3,5 @@ export enum Tools {
   PIPET,
   ELLIPSE,
   FILL,
+  LINE,
 }

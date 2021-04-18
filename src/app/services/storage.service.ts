@@ -2,7 +2,6 @@ export class StorageService {
   readonly STORAGE_KEY = 'storage-cache-key';
 
   public addToStorage<T>(state: T): void {
-    console.log(state)
     localStorage.setItem(this.STORAGE_KEY, JSON.stringify(state));
   }
 

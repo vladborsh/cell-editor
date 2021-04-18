@@ -18,6 +18,8 @@ import { StoragePlugin } from './app/store/plugins/storage.plugin';
 import { BresenhamEllipseAlgorithm } from './app/renderering/bresenham-ellipse-algorithm';
 import { EllipseTool } from './app/tools/ellipse.tool';
 import { FillTool } from './app/tools/fill.tool';
+import { LineTool } from './app/tools/line.tool';
+import { BresenhamLineAlgorithm } from './app/renderering/bresenham-line-algorithm';
 
 const storageService = new StorageService();
 const store = new Store(
@@ -32,14 +34,17 @@ const store = new Store(
 store.dispatch(new SaveHistory());
 const canvas = new Canvas(store);
 const bresenhamEllipseAlgorithm = new BresenhamEllipseAlgorithm();
+const bresenhamLineAlgorithm = new BresenhamLineAlgorithm();
 const ellipseTool = new EllipseTool(bresenhamEllipseAlgorithm, store);
 const fillTool = new FillTool(store);
+const lineTool = new LineTool(store, bresenhamLineAlgorithm);
 const cursorListener = new CursorListener(
   store,
   canvas,
   bresenhamEllipseAlgorithm,
   ellipseTool,
   fillTool,
+  lineTool,
 );
 const keyboardListeners = new KeyboardListeners(
   store,
