@@ -1,8 +1,8 @@
 import { Tools } from '../enums/tools.enum';
 import { GlobalState } from '../interfaces/global-state.interface';
 
-export const DEFAULT_SIZE = 40;
-const DEFAULT_STEP = 10;
+export const DEFAULT_SIZE = 50;
+const DEFAULT_STEP = 15;
 
 export const defaultState: GlobalState = {
   canvasHeight: DEFAULT_SIZE * DEFAULT_STEP,
@@ -14,7 +14,7 @@ export const defaultState: GlobalState = {
   cellSize: DEFAULT_STEP,
   cellNumberY: DEFAULT_SIZE,
   cellNumberX: DEFAULT_SIZE,
-  grid: Array.from({ length: DEFAULT_SIZE }, () => Array.from({ length: DEFAULT_SIZE }, () => 'ffffff')),
+  grid: Array.from({ length: DEFAULT_SIZE }, () => Array.from({ length: DEFAULT_SIZE }, () => null)),
   history: [],
   historyHead: -1,
   tool: Tools.BRUSH,

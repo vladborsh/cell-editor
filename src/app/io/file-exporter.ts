@@ -25,6 +25,9 @@ export class FileExporter {
 
     for (let i = 0; i < cellNumberX; i++) {
       for (let j = 0; j < cellNumberY; j++) {
+        if (!grid[i][j]) {
+          continue;
+        }
         context.fillStyle = `#${grid[i][j]}`;
         context.fillRect(
           i * this.DEFAULT_CELL_SIZE,

@@ -62,6 +62,9 @@ export class Renderer {
     const { grid, cellSize, cellNumberX, cellNumberY } = this.store.getSnapshot();
     for (let i = 0; i < cellNumberX; i++) {
       for (let j = 0; j < cellNumberY; j++) {
+        if (!grid[i][j]) {
+          continue
+        }
         this.canvas.context.fillStyle = `#${grid[i][j]}`;
         this.canvas.context.fillRect(i * cellSize, j * cellSize, cellSize, cellSize);
       }
