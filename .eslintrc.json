@@ -110,7 +110,7 @@
         "block-spacing": "off",
         "brace-style": ["off", "off"],
         "camelcase": [2, { "properties": "always" }],
-        "comma-dangle": "off",
+        "comma-dangle": ["error", "always-multiline"],
         "comma-spacing": "off",
         "comma-style": "off",
         "complexity": "off",
