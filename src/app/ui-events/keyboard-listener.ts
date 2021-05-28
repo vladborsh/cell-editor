@@ -1,25 +1,27 @@
-import { Redo } from "../store/actions/redo.action";
-import { SetTool } from "../store/actions/set-tool.action";
-import { Undo } from "../store/actions/undo.action";
-import { Tools } from "../enums/tools.enum";
-import { Store } from "../store/store";
-import { Clear } from "../store/actions/clear.action";
-import { ColorPickerComponent } from "../components/color-picker-component";
-import { FileExporter } from "../io/file-exporter";
-import { ResizeBrushComponent } from "../components/resize-brush-component";
+import { ColorPickerComponent } from '../components/color-picker-component';
+import { ResizeBrushComponent } from '../components/resize-brush-component';
+import { ResizeGridComponent } from '../components/resize-grid-component';
+import { Tools } from '../enums/tools.enum';
+import { FileExporter } from '../io/file-exporter';
+import { Clear } from '../store/actions/clear.action';
+import { Redo } from '../store/actions/redo.action';
+import { SetTool } from '../store/actions/set-tool.action';
+import { Undo } from '../store/actions/undo.action';
+import { Store } from '../store/store';
 
 export class KeyboardListeners {
   constructor(
     private store: Store,
     private colorPikerComponentFct: () => ColorPickerComponent,
     private resizeBrushComponentFct: () => ResizeBrushComponent,
+    private resizeGridComponentFct: () => ResizeGridComponent,
     private fileExporter: FileExporter,
   ) {}
 
   public install(): void {
     document.addEventListener('keydown', (event: KeyboardEvent) => {
       if (event.shiftKey && event.metaKey && event.code === 'KeyR') {
-        this.store.dispatch(new Clear())
+        this.store.dispatch(new Clear());
         return;
       }
       if (event.metaKey && event.code === 'KeyY') {
@@ -37,27 +39,27 @@ export class KeyboardListeners {
         return;
       }
       if (event.code === 'KeyP') {
-        this.store.dispatch(new SetTool(Tools.PIPET))
+        this.store.dispatch(new SetTool(Tools.PIPET));
         return;
       }
       if (event.code === 'KeyB') {
-        this.store.dispatch(new SetTool(Tools.BRUSH))
+        this.store.dispatch(new SetTool(Tools.BRUSH));
         return;
       }
       if (event.code === 'KeyE') {
-        this.store.dispatch(new SetTool(Tools.ELLIPSE))
+        this.store.dispatch(new SetTool(Tools.ELLIPSE));
         return;
       }
       if (event.code === 'KeyR') {
-        this.store.dispatch(new SetTool(Tools.RECTANGLE))
+        this.store.dispatch(new SetTool(Tools.RECTANGLE));
         return;
       }
       if (event.code === 'KeyF') {
-        this.store.dispatch(new SetTool(Tools.FILL))
+        this.store.dispatch(new SetTool(Tools.FILL));
         return;
       }
       if (event.code === 'KeyL') {
-        this.store.dispatch(new SetTool(Tools.LINE))
+        this.store.dispatch(new SetTool(Tools.LINE));
         return;
       }
       if (event.code === 'KeyC') {
@@ -68,6 +70,10 @@ export class KeyboardListeners {
         this.resizeBrushComponentFct().setup(document.body);
         return;
       }
-    })
+      if (event.code === 'KeyG') {
+        this.resizeGridComponentFct().setup(document.body);
+        return;
+      }
+    });
   }
 }
