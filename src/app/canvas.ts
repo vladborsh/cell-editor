@@ -13,8 +13,12 @@ export class Canvas {
     this.canvas.style.cursor = 'none';
     this.context = this.canvas.getContext('2d');
 
-    store.subscribeToProp('canvasHeight', (value: number) => (this.canvas.height = value));
-    store.subscribeToProp('canvasWidth', (value: number) => (this.canvas.width = value));
+    store.subscribeToProp('canvasHeight', (value: number) => {
+      this.canvas.height = value
+    });
+    store.subscribeToProp('canvasWidth', (value: number) => {
+      this.canvas.width = value
+    });
   }
 
   appendCanvasTo(element: Element): void {

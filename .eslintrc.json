@@ -46,7 +46,7 @@
         "@typescript-eslint/array-type": "off",
         "@typescript-eslint/restrict-template-expressions": "off",
         "@typescript-eslint/ban-types": "error",
-        "@typescript-eslint/consistent-type-assertions": "error",
+        "@typescript-eslint/consistent-type-assertions": "off",
         "@typescript-eslint/consistent-type-definitions": "error",
         "@typescript-eslint/dot-notation": "off",
         "@typescript-eslint/explicit-member-accessibility": [
@@ -110,7 +110,7 @@
         "block-spacing": "off",
         "brace-style": ["off", "off"],
         "camelcase": [2, { "properties": "always" }],
-        "comma-dangle": "off",
+        "comma-dangle": ["error", "always-multiline"],
         "comma-spacing": "off",
         "comma-style": "off",
         "complexity": "off",

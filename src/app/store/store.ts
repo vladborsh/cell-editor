@@ -24,8 +24,15 @@ export class Store {
   }
 
   public dispatch(action: Actions): void {
+    const oldState = this.state;
     this.state = this.reducers[action.type](action, this.state);
     this.pluginFns.forEach(pluginFn => pluginFn(action, this.state));
+    this.getDiffKeys(oldState, this.state)
+      .forEach((key: keyof GlobalState) => {
+        if (this.listeners[key]) {
+          this.listeners[key].forEach(listener => listener(this.state[key]));
+        }
+      });
   }
 
   public subscribeToProp<T extends keyof GlobalState>(propName: T, listener: (val: GlobalState[T]) => void): void {
@@ -34,5 +41,17 @@ export class Store {
     }
 
     this.listeners[propName].push(listener);
+  }
+
+  private getDiffKeys(oldState: GlobalState, newState: GlobalState): string[] {
+    const result = [];
+
+    for (let key in newState) {
+      if (oldState[key] !== newState[key]) {
+        result.push(key);
+      }
+    }
+
+    return result;
   }
 }

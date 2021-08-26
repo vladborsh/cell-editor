@@ -11,6 +11,7 @@ import { EllipseTool } from '../tools/ellipse.tool';
 import { FillTool } from '../tools/fill.tool';
 import { LineTool } from '../tools/line.tool';
 import { RectangleTool } from '../tools/rectangle.tool';
+import { UpdateZoom } from '../store/actions/update-zoom.action';
 
 export class CursorListener {
   private isMousePressed = false;
@@ -29,6 +30,14 @@ export class CursorListener {
     this.canvas.subscribe('mousedown', (event) => this.onMouseDown(event as MouseEvent));
     this.canvas.subscribe('mousemove', (event) => this.onMouseMove(event as MouseEvent));
     this.canvas.subscribe('mouseup', () => this.onMouseUp());
+    this.canvas.subscribe('wheel', (event: WheelEvent) => {
+      event.preventDefault();
+
+      const {cellSize} = this.store.getSnapshot();
+      const scale = cellSize + (event.deltaY * -0.01);
+
+      this.store.dispatch(new UpdateZoom(Math.min(Math.max(1, scale), 25)));
+    })
   }
 
   private onMouseDown(event: MouseEvent): void {
