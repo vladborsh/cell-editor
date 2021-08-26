@@ -8,11 +8,13 @@ import { Undo } from './undo.action';
 import { UpdateCells } from './update-cells.action';
 import { UpdateBrushSize } from './update-brush-size.action';
 import { UpdateToolLayerCells } from './update-tool-layer-cells.action';
+import { UpdateCellSize } from './update-cell-size.action';
 
 export type Actions =
   UpdateCells
   | UpdateToolLayerCells
   | UpdateColor
+  | UpdateCellSize
   | MoveMouse
   | SaveHistory
   | SetTool

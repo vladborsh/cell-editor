@@ -13,6 +13,7 @@ import { Clear } from './actions/clear.action';
 import { DEFAULT_SIZE } from './default-state';
 import { UpdateBrushSize } from './actions/update-brush-size.action';
 import { UpdateToolLayerCells } from './actions/update-tool-layer-cells.action';
+import { UpdateCellSize } from './actions/update-cell-size.action';
 
 function saveHistory(state: GlobalState): { history: string[][][], historyHead: number } {
   const historyHead = state.historyHead + 1;
@@ -39,6 +40,9 @@ export const reducers: Record<ActionTypes, (action: Actions, state: GlobalState)
   },
   [ActionTypes.UPDATE_BRUSH_SIZE]: ({ brushSize }: UpdateBrushSize, state: GlobalState) => {
     return { ...state, brushSize };
+  },
+  [ActionTypes.UPDATE_CELL_SIZE]: ({ cellSize }: UpdateCellSize, state: GlobalState) => {
+    return { ...state, cellSize };
   },
   [ActionTypes.UPDATE_CELLS]: ({ positions }: UpdateCells, state: GlobalState) => {
     for (const { x, y } of positions) {
