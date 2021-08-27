@@ -14,7 +14,9 @@ export const defaultState: GlobalState = {
   cellSize: DEFAULT_STEP,
   cellNumberY: DEFAULT_SIZE,
   cellNumberX: DEFAULT_SIZE,
-  grid: Array.from({ length: DEFAULT_SIZE }, () => Array.from({ length: DEFAULT_SIZE }, () => null)),
+  grid: Array.from({ length: DEFAULT_SIZE }, () =>
+    Array.from({ length: DEFAULT_SIZE }, () => null),
+  ),
   history: [],
   historyHead: -1,
   tool: Tools.BRUSH,

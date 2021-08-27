@@ -1,4 +1,4 @@
-import { ActionTypes } from "../../enums/actions-type.enum";
+import { ActionTypes } from '../../enums/actions-type.enum';
 
 export class UpdateBrushSize {
   readonly type = ActionTypes.UPDATE_BRUSH_SIZE;

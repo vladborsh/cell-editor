@@ -9,11 +9,11 @@ import { SaveHistory } from './actions/save-history.action';
 import { SetTool } from './actions/set-tool.action';
 import { Undo } from './actions/undo.action';
 import { UpdateBrushSize } from './actions/update-brush-size.action';
+import { UpdateCellSize } from './actions/update-cell-size.action';
 import { UpdateCells } from './actions/update-cells.action';
 import { UpdateColor } from './actions/update-color.action';
 import { UpdateGridSize } from './actions/update-grid-size.action';
 import { UpdateToolLayerCells } from './actions/update-tool-layer-cells.action';
-import { UpdateCellSize } from './actions/update-cell-size.action';
 import { UpdateZoom } from './actions/update-zoom.action';
 import { DEFAULT_SIZE } from './default-state';
 

@@ -1,28 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <title>Title</title>
+    <meta charset="utf-8" />
+    <title>Pixelart</title>
+    <base href="/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=swap"
+      rel="stylesheet"
+    />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
   </head>
-  <body></body>
-
-  <template id="color-picker">
-    <div class="color-picker-container">
-      <input type="color" name="color-picker" value="#e66465">
-    </div>
-  </template>
-
-  <template id="resize-brush">
-    <div class="resize-brush-container">
-      <input type="range" name="resize-brush" min="0" max="10" value="#e66465">
-    </div>
-  </template>
-
-  <template id="resize-grid">
-    <div class="resize-grid-container">
-      <input type="number" name="grid-size-x">
-      <input type="number" name="grid-size-y">
-      <button id="submit">OK</button>
-    </div>
-  </template>
+  <body class="mat-typography">
+    <app-root></app-root>
+  </body>
 </html>

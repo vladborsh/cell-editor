@@ -1,0 +1,12 @@
+<div class="resize-brush-container">
+  <input
+    #inputRef
+    [ngModel]="brushSize"
+    (ngModelChange)="onChange($event)"
+    (clickOutside)="onClickOutside()"
+    type="range"
+    name="resize-brush"
+    min="0"
+    max="10"
+  />
+</div>

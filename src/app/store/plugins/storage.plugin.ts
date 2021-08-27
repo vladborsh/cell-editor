@@ -1,11 +1,16 @@
-import { ActionTypes } from "../../enums/actions-type.enum";
-import { GlobalState } from "../../interfaces/global-state.interface";
-import { StorageService } from "../../services/storage.service";
-import { Actions } from "../actions/actions";
-import { PluginInterface } from "./pluggin.interface";
+import { Injectable } from '@angular/core';
 
+import { ActionTypes } from '../../enums/actions-type.enum';
+import { GlobalState } from '../../interfaces/global-state.interface';
+import { StorageService } from '../../services/storage/storage.service';
+import { Actions } from '../actions/actions';
+import { PluginInterface } from './pluggin.interface';
+
+@Injectable()
 export class StoragePlugin implements PluginInterface {
-  constructor(private storageService: StorageService, private skipActions?: ActionTypes) {}
+  private skipActions = ActionTypes.MOVE_MOUSE;
+
+  constructor(private storageService: StorageService) {}
 
   public apply() {
     return this.addToStorage.bind(this);

@@ -1,0 +1,12 @@
+<div class="color-picker-container">
+  <input
+    #inputRef
+    [ngModel]="color"
+    (ngModelChange)="onChange($event)"
+    (clickOutside)="onClickOutside()"
+    type="color"
+    name="color-picker"
+  />
+
+  Hello
+</div>

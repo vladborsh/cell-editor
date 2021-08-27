@@ -16,8 +16,15 @@
     "plugin:@typescript-eslint/recommended-requiring-type-checking",
     "plugin:prettier/recommended"
   ],
-  "ignorePatterns": ["*.config.*", "*.html"],
-  "plugins": ["@typescript-eslint", "prettier", "simple-import-sort", "import", "prefer-arrow", "jsdoc"],
+  "ignorePatterns": ["*.config.*", "*.html", "*.conf.js", "polyfills.ts"],
+  "plugins": [
+    "@typescript-eslint",
+    "prettier",
+    "simple-import-sort",
+    "import",
+    "prefer-arrow",
+    "jsdoc"
+  ],
   "rules": {},
   "overrides": [
     {
@@ -233,7 +240,13 @@
         "simple-import-sort/imports": [
           "error",
           {
-            "groups": [["^\\u0000"], ["^@?(?!ekapusta)\\w"], ["^@ekapusta?\\w"], ["^[^.]"], ["^\\."]]
+            "groups": [
+              ["^\\u0000"],
+              ["^@?(?!ekapusta)\\w"],
+              ["^@ekapusta?\\w"],
+              ["^[^.]"],
+              ["^\\."]
+            ]
           }
         ],
         "sort-imports": "off",
@@ -281,6 +294,7 @@
         "jsdoc/check-indentation": "error",
         "jsdoc/newline-after-description": "error",
         "jsdoc/no-types": "error",
+        "@typescript-eslint/no-floating-promises": "off",
         "@typescript-eslint/naming-convention": [
           "error",
           {
