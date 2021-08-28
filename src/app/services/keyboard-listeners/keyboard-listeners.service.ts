@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 
 import { ColorPickerComponent } from '../../components/color-picker/color-picker.component';
 import { ResizeBrushComponent } from '../../components/resize-brush/resize-brush.component';
 import { ResizeGridComponent } from '../../components/resize-grid/resize-grid.component';
+import { SaveFileDialogComponent } from '../../components/save-file-dialog/save-file-dialog.component';
 import { Tools } from '../../enums/tools.enum';
 import { Clear } from '../../store/actions/clear.action';
 import { Redo } from '../../store/actions/redo.action';
@@ -19,7 +21,7 @@ export class KeyboardListenersService {
   constructor(
     private store: StoreService,
     private cursorOverlayService: CursorOverlayService,
-    private fileExporter: FileExporterService,
+    private matDialog: MatDialog,
   ) {}
 
   public install(): void {
@@ -39,7 +41,7 @@ export class KeyboardListenersService {
       }
       if (event.metaKey && event.code === 'KeyS') {
         event.preventDefault();
-        this.fileExporter.export();
+        this.matDialog.open(SaveFileDialogComponent);
         return;
       }
       if (event.code === 'KeyP') {
@@ -71,11 +73,11 @@ export class KeyboardListenersService {
         return;
       }
       if (event.code === 'KeyS') {
-        this.cursorOverlayService.open(ResizeBrushComponent);
+        this.matDialog.open(ResizeBrushComponent);
         return;
       }
       if (event.code === 'KeyG') {
-        this.cursorOverlayService.open(ResizeGridComponent);
+        this.matDialog.open(ResizeGridComponent);
         return;
       }
     });

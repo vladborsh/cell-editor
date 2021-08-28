@@ -1,12 +1,13 @@
-<div class="resize-brush-container">
-  <input
-    #inputRef
-    [ngModel]="brushSize"
-    (ngModelChange)="onChange($event)"
-    (clickOutside)="onClickOutside()"
-    type="range"
-    name="resize-brush"
-    min="0"
-    max="10"
-  />
+<div>Brush size: {{ brushSize }}</div>
+<mat-slider
+  [ngModel]="brushSize"
+  (ngModelChange)="onChange($event)"
+  (clickOutside)="onClickOutside()"
+  min="1"
+  max="10"
+  step="1"
+>
+</mat-slider>
+<div>
+  <button (click)="onSubmit()" mat-button>OK</button>
 </div>

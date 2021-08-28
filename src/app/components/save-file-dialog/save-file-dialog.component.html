@@ -1,0 +1,13 @@
+<h2>Save file</h2>
+<mat-form-field class="full-width" appearance="fill">
+  <mat-label>File name</mat-label>
+  <input [(ngModel)]="fileName" matInput type="number" name="grid-size-y" />
+</mat-form-field>
+
+<div>Cell size: {{ cellSize }}</div>
+
+<mat-slider [(ngModel)]="cellSize" min="1" max="10" step="1"> </mat-slider>
+
+<div>
+  <button (click)="onSubmit()" mat-button>Save</button>
+</div>

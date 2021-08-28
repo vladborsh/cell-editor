@@ -1,5 +1,5 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { CursorOverlayService } from 'src/app/services/cursor-overlay/cursor-overlay.service';
+import { Component, OnInit, Optional } from '@angular/core';
+import { MatDialogRef } from '@angular/material/dialog';
 
 import { StoreService } from '../../services/store/store.service';
 import { UpdateGridSize } from '../../store/actions/update-grid-size.action';
@@ -10,12 +10,10 @@ import { UpdateGridSize } from '../../store/actions/update-grid-size.action';
   styleUrls: ['./resize-grid.component.scss'],
 })
 export class ResizeGridComponent implements OnInit {
-  @Output() submit = new EventEmitter<void>();
-
   public gridSizeX: number;
   public gridSizeY: number;
 
-  constructor(private store: StoreService, private cursorOverlayService: CursorOverlayService) {}
+  constructor(private store: StoreService, @Optional() public dialogRef: MatDialogRef<void>) {}
 
   ngOnInit(): void {
     const { cellNumberX, cellNumberY } = this.store.getSnapshot();
@@ -31,7 +29,9 @@ export class ResizeGridComponent implements OnInit {
         y: Number(this.gridSizeY),
       }),
     );
-    this.submit.emit();
-    this.cursorOverlayService.clickOutside();
+
+    if (this.dialogRef) {
+      this.dialogRef.close();
+    }
   }
 }

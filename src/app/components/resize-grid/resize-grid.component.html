@@ -1,5 +1,13 @@
 <div class="resize-grid-container">
-  <input [(ngModel)]="gridSizeX" type="number" name="grid-size-x" />
-  <input [(ngModel)]="gridSizeY" type="number" name="grid-size-y" />
-  <button (click)="onSubmit()" id="submit">OK</button>
+  <mat-form-field class="full-width" appearance="fill">
+    <mat-label>Width</mat-label>
+    <input [(ngModel)]="gridSizeX" matInput type="number" name="grid-size-x" />
+  </mat-form-field>
+
+  <mat-form-field class="full-width" appearance="fill">
+    <mat-label>Height</mat-label>
+    <input [(ngModel)]="gridSizeY" matInput type="number" name="grid-size-y" />
+  </mat-form-field>
+
+  <button (click)="onSubmit()" mat-button>OK</button>
 </div>

@@ -17,9 +17,19 @@ import { UpdateToolLayerCells } from './actions/update-tool-layer-cells.action';
 import { UpdateZoom } from './actions/update-zoom.action';
 import { DEFAULT_SIZE } from './default-state';
 
+const HISTORY_SIZE = 50;
+
 function saveHistory(state: GlobalState): { history: string[][][]; historyHead: number } {
-  const historyHead = state.historyHead + 1;
-  const history = [...state.history.slice(0, historyHead), copy(state.grid)];
+  let historyHead;
+  let history;
+
+  if (state.history.length === HISTORY_SIZE) {
+    historyHead = state.historyHead + 1;
+    history = [...state.history.slice(0, historyHead), copy(state.grid)];
+  } else {
+    historyHead = state.historyHead;
+    history = [...state.history.slice(1, historyHead), copy(state.grid)];
+  }
 
   return {
     history,

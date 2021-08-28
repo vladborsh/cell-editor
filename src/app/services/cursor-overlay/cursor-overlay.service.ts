@@ -38,7 +38,7 @@ export class CursorOverlayService {
   }
 
   public clickOutside(): void {
-    if (this.overlayRef.hasAttached()) {
+    if (this.overlayRef && this.overlayRef.hasAttached()) {
       this.overlayRef.detach();
     }
   }

@@ -65,7 +65,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged --config ./.lintstagedrc.js"
+      "pre-commit": "npx prettier --write . && lint-staged --config ./.lintstagedrc.js"
     }
   }
 }

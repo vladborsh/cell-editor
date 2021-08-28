@@ -1,0 +1,9 @@
+:host {
+  display: block;
+}
+
+::ng-deep {
+  .mat-button {
+    padding: 5px 5px !important;
+  }
+}

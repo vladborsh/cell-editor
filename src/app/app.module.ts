@@ -9,6 +9,7 @@ import { CanvasModule } from './components/canvas/canvas.module';
 import { ColorPickerModule } from './components/color-picker/color-picker.module';
 import { ResizeBrushModule } from './components/resize-brush/resize-brush.module';
 import { ResizeGridModule } from './components/resize-grid/resize-grid.module';
+import { SaveFileDialogModule } from './components/save-file-dialog/save-file-dialog.module';
 import { LoggerPlugin } from './store/plugins/logger.plugin';
 import { StoragePlugin } from './store/plugins/storage.plugin';
 import { reducers } from './store/reducers';
@@ -21,11 +22,12 @@ import { STORE_PLUGINS } from './tokens/store-plugins.token';
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+    OverlayModule,
     CanvasModule,
+    SaveFileDialogModule,
     ResizeBrushModule,
     ResizeGridModule,
     ColorPickerModule,
-    OverlayModule,
   ],
   providers: [
     {

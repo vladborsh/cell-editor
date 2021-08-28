@@ -1,4 +1,5 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, OnInit, Optional } from '@angular/core';
+import { MatDialogRef } from '@angular/material/dialog';
 import { CursorOverlayService } from 'src/app/services/cursor-overlay/cursor-overlay.service';
 
 import { StoreService } from '../../services/store/store.service';
@@ -10,24 +11,34 @@ import { UpdateBrushSize } from '../../store/actions/update-brush-size.action';
   styleUrls: ['./resize-brush.component.scss'],
 })
 export class ResizeBrushComponent implements OnInit {
-  @Output() clickOutside = new EventEmitter<void>();
+  public brushSize: string;
 
-  public brushSize = 2;
-
-  constructor(private store: StoreService, private cursorOverlayService: CursorOverlayService) {}
+  constructor(
+    private store: StoreService,
+    private cursorOverlayService: CursorOverlayService,
+    @Optional() public dialogRef: MatDialogRef<void>,
+  ) {}
 
   ngOnInit(): void {
-    const { brushSize, cursorPosition } = this.store.getSnapshot();
+    const { brushSize } = this.store.getSnapshot();
 
-    this.brushSize = brushSize;
+    this.brushSize = `${brushSize}`;
   }
 
   public onChange(event: string): void {
     this.store.dispatch(new UpdateBrushSize(Number(event)));
+    this.brushSize = event;
   }
 
   public onClickOutside(): void {
-    this.clickOutside.emit();
-    this.cursorOverlayService.clickOutside();
+    if (!this.dialogRef) {
+      this.cursorOverlayService.clickOutside();
+    }
+  }
+
+  public onSubmit(): void {
+    if (this.dialogRef) {
+      this.dialogRef.close();
+    }
   }
 }

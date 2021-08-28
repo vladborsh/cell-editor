@@ -1,32 +1,35 @@
 import { Injectable } from '@angular/core';
 
-import { StoreService } from '../store/store.service';
-
 @Injectable({
   providedIn: 'root',
 })
 export class FileExporterService {
-  private readonly defaultName = 'test.png';
-  private readonly defaultCellSize = 3;
-
-  constructor(private store: StoreService) {}
-
-  public export() {
+  public export(
+    fileName: string,
+    cellSize: number,
+    cellNumberX: number,
+    cellNumberY: number,
+    grid: string[][],
+  ) {
     const anchor = document.createElement('a');
-    anchor.setAttribute('href', this.getUrl());
-    anchor.setAttribute('download', this.defaultName);
+    anchor.setAttribute('href', this.getUrl(cellNumberX, cellNumberY, grid, cellSize));
+    anchor.setAttribute('download', fileName);
     anchor.style.display = 'none';
     document.body.append(anchor);
     anchor.click();
     document.body.removeChild(anchor);
   }
 
-  private getUrl(): string {
-    const { cellNumberX, cellNumberY, grid } = this.store.getSnapshot();
+  private getUrl(
+    cellNumberX: number,
+    cellNumberY: number,
+    grid: string[][],
+    cellSize: number,
+  ): string {
     const canvas = document.createElement('canvas');
     const context = canvas.getContext('2d');
-    canvas.width = cellNumberY * this.defaultCellSize;
-    canvas.height = cellNumberX * this.defaultCellSize;
+    canvas.width = cellNumberY * cellSize;
+    canvas.height = cellNumberX * cellSize;
 
     for (let i = 0; i < cellNumberX; i++) {
       for (let j = 0; j < cellNumberY; j++) {
@@ -34,12 +37,7 @@ export class FileExporterService {
           continue;
         }
         context.fillStyle = `#${grid[i][j]}`;
-        context.fillRect(
-          i * this.defaultCellSize,
-          j * this.defaultCellSize,
-          this.defaultCellSize,
-          this.defaultCellSize,
-        );
+        context.fillRect(i * cellSize, j * cellSize, cellSize, cellSize);
       }
     }
 
