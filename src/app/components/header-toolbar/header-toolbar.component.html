@@ -1,0 +1,18 @@
+<mat-toolbar color="primary">
+  <button mat-icon-button [matMenuTriggerFor]="menu">
+    <mat-icon>menu</mat-icon>
+  </button>
+  <span class="spacer"></span>
+  {{ username$ | async }}
+</mat-toolbar>
+
+<mat-menu #menu="matMenu">
+  <button (click)="login()" mat-menu-item>
+    Login
+    <mat-icon>login</mat-icon>
+  </button>
+  <button mat-menu-item>
+    Share
+    <mat-icon>share</mat-icon>
+  </button>
+</mat-menu>
