@@ -1,7 +1,7 @@
 import { Tools } from '../enums/tools.enum';
 import { Vector } from './vector.interface';
 
-export interface GlobalState {
+export interface CanvasBoardState {
   canvasHeight: number;
   canvasWidth: number;
   color: string;

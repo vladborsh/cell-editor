@@ -10,6 +10,7 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { CanvasModule } from './components/canvas/canvas.module';
 import { ColorPickerModule } from './components/color-picker/color-picker.module';
+import { ConfirmationDialogModule } from './components/confirmation-dialog/confirmation-dialog.module';
 import { HeaderToolbarModule } from './components/header-toolbar/header-toolbar.module';
 import { HomeModule } from './components/home/home.module';
 import { ResizeBrushModule } from './components/resize-brush/resize-brush.module';
@@ -35,6 +36,7 @@ import { STORE_PLUGINS } from './tokens/store-plugins.token';
     ColorPickerModule,
     HomeModule,
     HeaderToolbarModule,
+    ConfirmationDialogModule,
     AngularFireModule.initializeApp(environment.firebase),
   ],
   providers: [

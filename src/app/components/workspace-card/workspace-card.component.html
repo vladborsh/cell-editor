@@ -1,0 +1,11 @@
+<mat-card>
+  <div class="workspace__header">
+    <h2>{{ workspace.name }}</h2>
+    <button mat-icon-button>
+      <mat-icon (click)="onRemove()">close</mat-icon>
+    </button>
+  </div>
+  <div><b>Created: </b> {{ workspace.createdDate | date }}</div>
+  <div><b>Created by: </b> {{ workspace.createdByName }}</div>
+  <div class="workspace__visibility"><mat-icon>visibility</mat-icon> {{ workspace.views }}</div>
+</mat-card>

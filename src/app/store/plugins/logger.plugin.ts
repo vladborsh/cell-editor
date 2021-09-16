@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { ActionTypes } from '../../enums/actions-type.enum';
-import { GlobalState } from '../../interfaces/global-state.interface';
+import { CanvasBoardState } from '../../interfaces/global-state.interface';
 import { Actions } from '../actions/actions';
 import { PluginInterface } from './pluggin.interface';
 
@@ -13,7 +13,7 @@ export class LoggerPlugin implements PluginInterface {
     return this.log.bind(this);
   }
 
-  private log(action: Actions, state: GlobalState): void {
+  private log(action: Actions, state: CanvasBoardState): void {
     if (this.skipActions && this.skipActions.includes(action.type)) {
       return;
     }

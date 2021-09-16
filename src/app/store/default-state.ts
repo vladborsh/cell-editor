@@ -1,10 +1,10 @@
 import { Tools } from '../enums/tools.enum';
-import { GlobalState } from '../interfaces/global-state.interface';
+import { CanvasBoardState } from '../interfaces/global-state.interface';
 
 export const DEFAULT_SIZE = 50;
 const DEFAULT_STEP = 15;
 
-export const defaultState: GlobalState = {
+export const defaultState: CanvasBoardState = {
   canvasHeight: DEFAULT_SIZE * DEFAULT_STEP,
   canvasWidth: DEFAULT_SIZE * DEFAULT_STEP,
   color: '333333',

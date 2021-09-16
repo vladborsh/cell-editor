@@ -1,0 +1,19 @@
+:host {
+  display: block;
+  width: 350px;
+}
+
+.confirmation {
+  &__text {
+    margin: 20px;
+  }
+
+  &__buttons {
+    display: flex;
+    justify-content: flex-end;
+
+    button {
+      margin: 5px;
+    }
+  }
+}

@@ -7,12 +7,20 @@
 </mat-toolbar>
 
 <mat-menu #menu="matMenu">
-  <button (click)="login()" mat-menu-item>
+  <button *ngIf="!(username$ | async)" (click)="login()" mat-menu-item>
     Login
     <mat-icon>login</mat-icon>
+  </button>
+  <button (click)="createNew()" mat-menu-item>
+    Create new
+    <mat-icon>add_circle_outline</mat-icon>
   </button>
   <button mat-menu-item>
     Share
     <mat-icon>share</mat-icon>
+  </button>
+  <button *ngIf="username$ | async" (click)="logout()" mat-menu-item>
+    Logout
+    <mat-icon>logout</mat-icon>
   </button>
 </mat-menu>

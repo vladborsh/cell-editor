@@ -1,0 +1,11 @@
+<div class="confirmation__text">
+  <b>{{ data.text }}</b>
+</div>
+<div class="confirmation__buttons">
+  <button (click)="cancel()" mat-raised-button>
+    {{ data.cancelBtnLabel }}
+  </button>
+  <button (click)="confirm()" mat-raised-button color="primary">
+    {{ data.submitBtnLabel }}
+  </button>
+</div>

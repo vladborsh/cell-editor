@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   firebase: {
-    databaseURL: '<your-database-URL>',
+    databaseURL: 'https://cell-editor-default-rtdb.firebaseio.com/',
     measurementId: '<your-measurement-id>',
     apiKey: 'AIzaSyDJTu3As6Ce5QjpL_jIk8P1zgltsYEKiWI',
     authDomain: 'cell-editor.firebaseapp.com',

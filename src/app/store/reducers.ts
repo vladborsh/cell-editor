@@ -1,5 +1,5 @@
 import { ActionTypes } from '../enums/actions-type.enum';
-import { GlobalState } from '../interfaces/global-state.interface';
+import { CanvasBoardState } from '../interfaces/global-state.interface';
 import { copy } from '../utils/copy.helper';
 import { Actions } from './actions/actions';
 import { Clear } from './actions/clear.action';
@@ -19,7 +19,7 @@ import { DEFAULT_SIZE } from './default-state';
 
 const HISTORY_SIZE = 50;
 
-function saveHistory(state: GlobalState): { history: string[][][]; historyHead: number } {
+function saveHistory(state: CanvasBoardState): { history: string[][][]; historyHead: number } {
   let historyHead;
   let history;
 
@@ -37,26 +37,29 @@ function saveHistory(state: GlobalState): { history: string[][][]; historyHead: 
   };
 }
 
-export const reducers: Record<ActionTypes, (action: Actions, state: GlobalState) => GlobalState> = {
-  [ActionTypes.MOVE_MOUSE]: (action: MoveMouse, state: GlobalState) => {
+export const reducers: Record<
+  ActionTypes,
+  (action: Actions, state: CanvasBoardState) => CanvasBoardState
+> = {
+  [ActionTypes.MOVE_MOUSE]: (action: MoveMouse, state: CanvasBoardState) => {
     return { ...state, cursorPosition: action.position };
   },
-  [ActionTypes.SAVE_HISTORY]: (_action: SaveHistory, state: GlobalState) => {
+  [ActionTypes.SAVE_HISTORY]: (_action: SaveHistory, state: CanvasBoardState) => {
     return {
       ...state,
       ...saveHistory(state),
     };
   },
-  [ActionTypes.UPDATE_COLOR]: ({ color }: UpdateColor, state: GlobalState) => {
+  [ActionTypes.UPDATE_COLOR]: ({ color }: UpdateColor, state: CanvasBoardState) => {
     return { ...state, color };
   },
-  [ActionTypes.UPDATE_BRUSH_SIZE]: ({ brushSize }: UpdateBrushSize, state: GlobalState) => {
+  [ActionTypes.UPDATE_BRUSH_SIZE]: ({ brushSize }: UpdateBrushSize, state: CanvasBoardState) => {
     return { ...state, brushSize };
   },
-  [ActionTypes.UPDATE_CELL_SIZE]: ({ cellSize }: UpdateCellSize, state: GlobalState) => {
+  [ActionTypes.UPDATE_CELL_SIZE]: ({ cellSize }: UpdateCellSize, state: CanvasBoardState) => {
     return { ...state, cellSize };
   },
-  [ActionTypes.UPDATE_GRID_SIZE]: ({ newGridSize }: UpdateGridSize, state: GlobalState) => {
+  [ActionTypes.UPDATE_GRID_SIZE]: ({ newGridSize }: UpdateGridSize, state: CanvasBoardState) => {
     const newGrid = [];
 
     for (let i = 0; i < newGridSize.x; i++) {
@@ -79,7 +82,7 @@ export const reducers: Record<ActionTypes, (action: Actions, state: GlobalState)
       grid: newGrid,
     };
   },
-  [ActionTypes.UPDATE_ZOOM]: ({ zoom }: UpdateZoom, state: GlobalState) => {
+  [ActionTypes.UPDATE_ZOOM]: ({ zoom }: UpdateZoom, state: CanvasBoardState) => {
     const ratio = zoom / state.cellSize;
 
     return {
@@ -90,7 +93,7 @@ export const reducers: Record<ActionTypes, (action: Actions, state: GlobalState)
       cursorPosition: { x: state.cursorPosition.x * ratio, y: state.cursorPosition.y * ratio },
     };
   },
-  [ActionTypes.UPDATE_CELLS]: ({ positions }: UpdateCells, state: GlobalState) => {
+  [ActionTypes.UPDATE_CELLS]: ({ positions }: UpdateCells, state: CanvasBoardState) => {
     for (const { x, y } of positions) {
       if (x >= 0 && x < state.grid.length && y >= 0 && y < state.grid[0].length) {
         state.grid[x][y] = state.color;
@@ -100,17 +103,17 @@ export const reducers: Record<ActionTypes, (action: Actions, state: GlobalState)
   },
   [ActionTypes.UPDATE_TOOL_LAYER_CELLS]: (
     { positions }: UpdateToolLayerCells,
-    state: GlobalState,
+    state: CanvasBoardState,
   ) => {
     return { ...state, toolTemporalLayer: positions };
   },
-  [ActionTypes.SET_TOOL]: ({ tool }: SetTool, state: GlobalState) => {
+  [ActionTypes.SET_TOOL]: ({ tool }: SetTool, state: CanvasBoardState) => {
     if (state.tool !== tool) {
       return { ...state, tool };
     }
     return state;
   },
-  [ActionTypes.UNDO]: (_: Undo, state: GlobalState) => {
+  [ActionTypes.UNDO]: (_: Undo, state: CanvasBoardState) => {
     if (state.historyHead > 0) {
       const historyHead = state.historyHead - 1;
       return { ...state, historyHead, grid: copy(state.history[historyHead]) };
@@ -118,7 +121,7 @@ export const reducers: Record<ActionTypes, (action: Actions, state: GlobalState)
 
     return state;
   },
-  [ActionTypes.REDO]: (_: Redo, state: GlobalState) => {
+  [ActionTypes.REDO]: (_: Redo, state: CanvasBoardState) => {
     if (state.historyHead < state.history.length - 1) {
       const historyHead = state.historyHead + 1;
       return { ...state, historyHead, grid: copy(state.history[historyHead]) };
@@ -126,7 +129,7 @@ export const reducers: Record<ActionTypes, (action: Actions, state: GlobalState)
 
     return state;
   },
-  [ActionTypes.CLEAR]: (_: Clear, state: GlobalState) => {
+  [ActionTypes.CLEAR]: (_: Clear, state: CanvasBoardState) => {
     const grid = Array.from({ length: DEFAULT_SIZE }, () =>
       Array.from({ length: DEFAULT_SIZE }, () => 'ffffff'),
     );

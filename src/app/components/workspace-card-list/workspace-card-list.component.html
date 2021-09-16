@@ -1,0 +1,8 @@
+<div class="container">
+  <app-workspace-card
+    *ngFor="let item of workspaces$ | async"
+    [workspace]="item"
+    (remove)="onRemove($event)"
+    class="container__item"
+  ></app-workspace-card>
+</div>

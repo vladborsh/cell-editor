@@ -1,10 +1,9 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { AngularFireAuth } from '@angular/fire/auth';
-import { auth } from 'firebase';
+import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
+import { AuthService } from 'src/app/services/auth/auth.service';
 
-import { User } from '../../interfaces/user.interface';
+import { NewWorkspaceComponent } from '../new-workspace/new-workspace.component';
 
 @Component({
   selector: 'app-header-toolbar',
@@ -15,20 +14,21 @@ import { User } from '../../interfaces/user.interface';
 export class HeaderToolbarComponent implements OnInit {
   public username$: Observable<string>;
 
-  constructor(private angularFireAuth: AngularFireAuth) {}
+  constructor(private authService: AuthService, public matDialog: MatDialog) {}
 
   ngOnInit(): void {
-    this.username$ = this.angularFireAuth.user.pipe(
-      filter(Boolean),
-      map((user: User) => user.displayName),
-    );
+    this.username$ = this.authService.getUserName();
+  }
+
+  createNew(): void {
+    this.matDialog.open(NewWorkspaceComponent);
   }
 
   login() {
-    this.angularFireAuth.signInWithPopup(new auth.GoogleAuthProvider());
+    this.authService.login();
   }
 
   logout() {
-    this.angularFireAuth.signOut();
+    this.authService.logout();
   }
 }

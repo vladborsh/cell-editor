@@ -1,6 +1,6 @@
-import { GlobalState } from '../../interfaces/global-state.interface';
+import { CanvasBoardState } from '../../interfaces/global-state.interface';
 import { Actions } from '../actions/actions';
 
 export interface PluginInterface {
-  apply(): (action: Actions, state: GlobalState) => void;
+  apply(): (action: Actions, state: CanvasBoardState) => void;
 }
