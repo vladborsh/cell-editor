@@ -11,7 +11,7 @@ const routes: Routes = [
     component: HomeComponent,
   },
   {
-    path: 'canvas',
+    path: 'workspace/:id',
     component: CanvasComponent,
   },
 ];

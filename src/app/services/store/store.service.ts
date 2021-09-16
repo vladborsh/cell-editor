@@ -16,6 +16,7 @@ export class StoreService {
   private state: CanvasBoardState;
   private listeners: Record<string, ((val: CanvasBoardState[keyof CanvasBoardState]) => void)[]> =
     {};
+  private generalListeners: ((val: CanvasBoardState) => void)[] = [];
   private pluginFns: ((action: Actions, state: CanvasBoardState) => void)[];
 
   constructor(
@@ -25,9 +26,15 @@ export class StoreService {
       (action: Actions, state: CanvasBoardState) => CanvasBoardState
     >,
     @Inject(STORE_PLUGINS) private plugins: PluginInterface[],
-    storageService: StorageService,
-  ) {
-    this.state = storageService.isEmpty() ? defaultState : storageService.pullFromStorage();
+    private storageService: StorageService,
+  ) {}
+
+  public install(state?: CanvasBoardState): void {
+    this.state = state
+      ? state
+      : this.storageService.isEmpty()
+      ? defaultState
+      : this.storageService.pullFromStorage();
     this.pluginFns = this.plugins.map(plugin => plugin.apply());
   }
 
@@ -44,6 +51,10 @@ export class StoreService {
         this.listeners[key].forEach(listener => listener(this.state[key]));
       }
     });
+  }
+
+  public subscribe(listener: (val: CanvasBoardState) => void): void {
+    this.generalListeners.push(listener);
   }
 
   public subscribeToProp<T extends keyof CanvasBoardState>(

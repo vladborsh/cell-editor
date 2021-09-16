@@ -2,7 +2,7 @@ import { Tools } from '../enums/tools.enum';
 import { CanvasBoardState } from '../interfaces/global-state.interface';
 
 export const DEFAULT_SIZE = 50;
-const DEFAULT_STEP = 15;
+const DEFAULT_STEP = 10;
 
 export const defaultState: CanvasBoardState = {
   canvasHeight: DEFAULT_SIZE * DEFAULT_STEP,
@@ -15,7 +15,7 @@ export const defaultState: CanvasBoardState = {
   cellNumberY: DEFAULT_SIZE,
   cellNumberX: DEFAULT_SIZE,
   grid: Array.from({ length: DEFAULT_SIZE }, () =>
-    Array.from({ length: DEFAULT_SIZE }, () => null),
+    Array.from({ length: DEFAULT_SIZE }, () => 'ffffff'),
   ),
   history: [],
   historyHead: -1,

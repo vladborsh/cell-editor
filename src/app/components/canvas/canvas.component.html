@@ -1,5 +1,10 @@
 <div class="canvas-box">
-  <canvas #canvasRef [height]="canvasHeight" [width]="canvasWidth" class="main-canvas"> </canvas>
+  <canvas
+    #canvasRef
+    [height]="canvasHeight$ | async"
+    [width]="canvasWidth$ | async"
+    class="main-canvas"
+  ></canvas>
 </div>
 
 <div class="tools-container">

@@ -2,6 +2,7 @@
   <app-workspace-card
     *ngFor="let item of workspaces$ | async"
     [workspace]="item"
+    (click)="onSelect(item.id)"
     (remove)="onRemove($event)"
     class="container__item"
   ></app-workspace-card>

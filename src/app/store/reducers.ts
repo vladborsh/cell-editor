@@ -23,6 +23,10 @@ function saveHistory(state: CanvasBoardState): { history: string[][][]; historyH
   let historyHead;
   let history;
 
+  if (!state.history) {
+    state.history = [];
+  }
+
   if (state.history.length === HISTORY_SIZE) {
     historyHead = state.historyHead + 1;
     history = [...state.history.slice(0, historyHead), copy(state.grid)];

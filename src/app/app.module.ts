@@ -17,7 +17,6 @@ import { ResizeBrushModule } from './components/resize-brush/resize-brush.module
 import { ResizeGridModule } from './components/resize-grid/resize-grid.module';
 import { SaveFileDialogModule } from './components/save-file-dialog/save-file-dialog.module';
 import { LoggerPlugin } from './store/plugins/logger.plugin';
-import { StoragePlugin } from './store/plugins/storage.plugin';
 import { reducers } from './store/reducers';
 import { REDUCERS } from './tokens/reducers.token';
 import { STORE_PLUGINS } from './tokens/store-plugins.token';
@@ -40,11 +39,6 @@ import { STORE_PLUGINS } from './tokens/store-plugins.token';
     AngularFireModule.initializeApp(environment.firebase),
   ],
   providers: [
-    {
-      provide: STORE_PLUGINS,
-      useClass: StoragePlugin,
-      multi: true,
-    },
     {
       provide: STORE_PLUGINS,
       useClass: LoggerPlugin,

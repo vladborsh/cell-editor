@@ -80,26 +80,6 @@ export class RendererService {
         this.canvas.context.fillStyle = `#${grid[i][j]}`;
         this.canvas.context.fillRect(i * cellSize, j * cellSize, cellSize, cellSize);
       }
-
-      this.canvas.context.strokeStyle = '#777777';
-      this.canvas.context.beginPath();
-      this.canvas.context.moveTo(i * cellSize, 0);
-      this.canvas.context.lineTo(i * cellSize, cellNumberY * cellSize);
-      this.canvas.context.stroke();
-      this.canvas.context.beginPath();
-      this.canvas.context.moveTo(0, i * cellSize);
-      this.canvas.context.lineTo(cellNumberX * cellSize, i * cellSize);
-      this.canvas.context.stroke();
-    }
-
-    if (cellNumberX < cellNumberY) {
-      this.canvas.context.strokeStyle = '#777777';
-      for (let i = cellNumberX; i < cellNumberY; i++) {
-        this.canvas.context.beginPath();
-        this.canvas.context.moveTo(0, i * cellSize);
-        this.canvas.context.lineTo(cellNumberX * cellSize, i * cellSize);
-        this.canvas.context.stroke();
-      }
     }
 
     this.canvas.context.lineWidth = 1;

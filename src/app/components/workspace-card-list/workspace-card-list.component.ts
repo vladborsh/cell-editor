@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { Workspace } from 'src/app/interfaces/workspace.interface';
@@ -17,10 +18,18 @@ import { ConfirmationDialogOutput } from '../confirmation-dialog/confirmation-di
 export class WorkspaceCardListComponent implements OnInit {
   public workspaces$: Observable<Workspace[]>;
 
-  constructor(private workspaceService: WorkspaceService, private matDialog: MatDialog) {}
+  constructor(
+    private workspaceService: WorkspaceService,
+    private matDialog: MatDialog,
+    private router: Router,
+  ) {}
 
   ngOnInit(): void {
     this.workspaces$ = this.workspaceService.getItemList$();
+  }
+
+  public onSelect(id: string): void {
+    this.router.navigate([`workspace/${id}`]);
   }
 
   public onRemove(id: string): void {

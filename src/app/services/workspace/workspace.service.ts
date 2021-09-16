@@ -29,11 +29,27 @@ export class WorkspaceService {
     );
   }
 
+  getItemOnce(workspaceId: string): Observable<Workspace> {
+    return this.authService.getUserId().pipe(
+      switchMap((uid: string) =>
+        this.database
+          .object<Workspace>(`${WORKSPACE_COLLECTION_NAME}/${uid}/${workspaceId}`)
+          .snapshotChanges(),
+      ),
+      map((action: SnapshotAction<Workspace>) => ({ id: action.key, ...action.payload.val() })),
+      take(1),
+    );
+  }
+
   create(baseWorkspace: Workspace): void {
     combineLatest([
       this.collection$.pipe(take(1)),
       this.enrichCreatePayload(baseWorkspace),
     ]).subscribe(([collection, workspace]) => collection.push(workspace));
+  }
+
+  update(id: string, workspace: Workspace): void {
+    this.collection$.pipe(take(1)).subscribe(collection => collection.set(id, workspace));
   }
 
   remove(id: string): void {

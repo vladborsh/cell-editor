@@ -1,8 +1,8 @@
 <mat-card>
   <div class="workspace__header">
     <h2>{{ workspace.name }}</h2>
-    <button mat-icon-button>
-      <mat-icon (click)="onRemove()">close</mat-icon>
+    <button (click)="onRemove()" mat-icon-button appClickStopPropagation>
+      <mat-icon>close</mat-icon>
     </button>
   </div>
   <div><b>Created: </b> {{ workspace.createdDate | date }}</div>
