@@ -28,11 +28,11 @@ function saveHistory(state: CanvasBoardState): { history: string[][][]; historyH
   }
 
   if (state.history.length === HISTORY_SIZE) {
-    historyHead = state.historyHead + 1;
-    history = [...state.history.slice(0, historyHead), copy(state.grid)];
-  } else {
     historyHead = state.historyHead;
     history = [...state.history.slice(1, historyHead), copy(state.grid)];
+  } else {
+    historyHead = state.historyHead + 1;
+    history = [...state.history.slice(0, historyHead), copy(state.grid)];
   }
 
   return {
@@ -118,6 +118,9 @@ export const reducers: Record<
     return state;
   },
   [ActionTypes.UNDO]: (_: Undo, state: CanvasBoardState) => {
+    console.log('undo');
+    console.log(state.historyHead);
+    console.log(state.history);
     if (state.historyHead > 0) {
       const historyHead = state.historyHead - 1;
       return { ...state, historyHead, grid: copy(state.history[historyHead]) };

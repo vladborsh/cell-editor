@@ -30,11 +30,7 @@ export class StoreService {
   ) {}
 
   public install(state?: CanvasBoardState): void {
-    this.state = state
-      ? state
-      : this.storageService.isEmpty()
-      ? defaultState
-      : this.storageService.pullFromStorage();
+    this.state = state ? state : defaultState;
     this.pluginFns = this.plugins.map(plugin => plugin.apply());
   }
 
@@ -51,6 +47,7 @@ export class StoreService {
         this.listeners[key].forEach(listener => listener(this.state[key]));
       }
     });
+    this.generalListeners.forEach(listener => listener(this.state));
   }
 
   public subscribe(listener: (val: CanvasBoardState) => void): void {
