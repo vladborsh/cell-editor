@@ -12,9 +12,16 @@ export class FileExporterService {
     cellNumberY: number,
     grid: string[][][],
     layers: Layer[],
+    isSpriteMap = false,
   ) {
     const anchor = document.createElement('a');
-    anchor.setAttribute('href', this.getUrl(cellSize, cellNumberX, cellNumberY, grid, layers));
+    let url: string;
+    if (isSpriteMap) {
+      url = this.getUrlSpriteMap(cellSize, cellNumberX, cellNumberY, grid, layers);
+    } else {
+      url = this.getUrlSingle(cellSize, cellNumberX, cellNumberY, grid, layers);
+    }
+    anchor.setAttribute('href', url);
     anchor.setAttribute('download', fileName);
     anchor.style.display = 'none';
     document.body.append(anchor);
@@ -22,7 +29,7 @@ export class FileExporterService {
     document.body.removeChild(anchor);
   }
 
-  private getUrl(
+  private getUrlSingle(
     cellSize: number,
     cellNumberX: number,
     cellNumberY: number,
@@ -43,6 +50,34 @@ export class FileExporterService {
           context.globalAlpha = layers[layer].opacity / 100;
           context.fillStyle = `#${grid[layer][i][j]}`;
           context.fillRect(i * cellSize, j * cellSize, cellSize, cellSize);
+        }
+      }
+    }
+
+    return canvas.toDataURL('image/png');
+  }
+
+  private getUrlSpriteMap(
+    cellSize: number,
+    cellNumberX: number,
+    cellNumberY: number,
+    grid: string[][][],
+    layers: Layer[],
+  ): string {
+    const canvas = document.createElement('canvas');
+    const context = canvas.getContext('2d');
+    const width = cellNumberY * cellSize;
+    canvas.width = cellNumberY * cellSize * grid.length;
+    canvas.height = cellNumberX * cellSize;
+
+    for (let layer = 0; layer < grid.length; layer++) {
+      for (let i = 0; i < cellNumberX; i++) {
+        for (let j = 0; j < cellNumberY; j++) {
+          if (!grid[layer][i][j]) {
+            continue;
+          }
+          context.fillStyle = `#${grid[layer][i][j]}`;
+          context.fillRect(layer * width + i * cellSize, j * cellSize, cellSize, cellSize);
         }
       }
     }

@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
-import { ResizeBrushComponent } from '../../components/resize-brush/resize-brush.component';
 import { ResizeGridComponent } from '../../components/resize-grid/resize-grid.component';
 import { SaveFileDialogComponent } from '../../components/save-file-dialog/save-file-dialog.component';
 import { Tools } from '../../enums/tools.enum';
@@ -64,10 +63,6 @@ export class KeyboardListenersService {
       }
       if (event.metaKey && event.code === 'KeyL') {
         this.store.dispatch(new SetTool(Tools.LINE));
-        return;
-      }
-      if (event.metaKey && event.code === 'KeyS') {
-        this.matDialog.open(ResizeBrushComponent);
         return;
       }
       if (event.metaKey && event.code === 'KeyG') {

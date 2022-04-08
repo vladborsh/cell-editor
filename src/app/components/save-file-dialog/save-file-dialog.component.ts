@@ -10,9 +10,9 @@ import { StoreService } from '../../services/store/store.service';
   styleUrls: ['./save-file-dialog.component.scss'],
 })
 export class SaveFileDialogComponent {
-  public fileName: string;
+  public fileName = 'Untitled';
   public cellSize = 3;
-
+  public isSpriteMap = false;
   constructor(
     private storeService: StoreService,
     private fileExporter: FileExporterService,
@@ -22,7 +22,16 @@ export class SaveFileDialogComponent {
   onSubmit(): void {
     const { cellNumberX, cellNumberY, grid, layers } = this.storeService.getSnapshot();
 
-    this.fileExporter.export(this.fileName, this.cellSize, cellNumberX, cellNumberY, grid, layers);
+    this.fileExporter.export(
+      this.fileName,
+      this.cellSize,
+      cellNumberX,
+      cellNumberY,
+      grid,
+      layers,
+      this.isSpriteMap,
+    );
+
     this.dialogRef.close();
   }
 }

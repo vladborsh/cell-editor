@@ -9,5 +9,9 @@
 <mat-slider [(ngModel)]="cellSize" min="1" max="10" step="1"> </mat-slider>
 
 <div>
+  <mat-checkbox [(ngModel)]="isSpriteMap"> Is sprite map </mat-checkbox>
+</div>
+
+<div>
   <button (click)="onSubmit()" mat-button>Save</button>
 </div>
