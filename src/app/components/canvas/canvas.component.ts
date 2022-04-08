@@ -1,14 +1,14 @@
 import {
-  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
   ElementRef,
+  OnDestroy,
   OnInit,
   ViewChild,
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { BehaviorSubject } from 'rxjs';
-import { debounceTime, filter, switchMap, take, takeUntil } from 'rxjs/operators';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { debounceTime, delay, filter, switchMap, take, takeUntil } from 'rxjs/operators';
 import { CanvasBoardState } from 'src/app/interfaces/global-state.interface';
 import { Workspace } from 'src/app/interfaces/workspace.interface';
 import { WorkspaceService } from 'src/app/services/workspace/workspace.service';
@@ -28,15 +28,16 @@ import { SaveHistory } from '../../store/actions/save-history.action';
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [DestroyService],
 })
-export class CanvasComponent implements OnInit, AfterViewInit {
+export class CanvasComponent implements OnInit, OnDestroy {
   @ViewChild('canvasRef') canvas: ElementRef<HTMLCanvasElement>;
 
-  public canvasWidth$ = new BehaviorSubject<number>(0);
-  public canvasHeight$ = new BehaviorSubject<number>(0);
+  public workspace$: Observable<Workspace>;
+  public canvasWidth$: Observable<number>;
+  public canvasHeight$: Observable<number>;
   public canvasStore$ = new BehaviorSubject<CanvasBoardState>(null);
+  public isReady$ = this.store.isReady$;
 
   private context: CanvasRenderingContext2D;
-  private canvasStoreInitialized$ = new BehaviorSubject<boolean>(false);
 
   constructor(
     private store: StoreService,
@@ -50,16 +51,17 @@ export class CanvasComponent implements OnInit, AfterViewInit {
   ) {}
 
   ngOnInit(): void {
-    this.activatedRoute.params
-      .pipe(
-        switchMap(({ id }) => this.workspaceService.getItemOnce(id)),
-        takeUntil(this.destroy$),
-      )
-      .subscribe((workspace: Workspace) => this.setStore(workspace));
-  }
+    this.workspace$ = this.activatedRoute.params.pipe(
+      switchMap(({ id }) => this.workspaceService.getItemOnce(id)),
+      filter(workspace => !!workspace),
+      takeUntil(this.destroy$),
+    );
 
-  ngAfterViewInit(): void {
-    this.canvasStoreInitialized$.pipe(filter(Boolean), take(1)).subscribe(() => {
+    this.workspace$.pipe(take(1)).subscribe((workspace: Workspace) => this.setStore(workspace));
+    this.canvasHeight$ = this.store.select('canvasHeight');
+    this.canvasWidth$ = this.store.select('canvasWidth');
+
+    this.store.isReady$.pipe(filter(Boolean), delay(100), take(1)).subscribe(() => {
       this.context = this.canvas.nativeElement.getContext('2d');
       this.canvasService.setCanvas(this.canvas.nativeElement);
       this.canvasService.setContext(this.context);
@@ -69,39 +71,33 @@ export class CanvasComponent implements OnInit, AfterViewInit {
     });
   }
 
+  ngOnDestroy(): void {
+    this.store.unready();
+    this.destroy$.next();
+  }
+
   private setStore(workspace: Workspace): void {
     this.store.install(workspace.state);
 
-    if (!workspace.state) {
-      this.workspaceService.update(workspace.id, {
-        ...workspace,
-        state: this.store.getSnapshot(),
-      });
-    }
-
-    const { canvasHeight, canvasWidth } = this.store.getSnapshot();
-    this.canvasHeight$.next(canvasHeight);
-    this.canvasWidth$.next(canvasWidth);
-
-    this.store.subscribeToProp('canvasHeight', (value: number) => {
-      this.canvasHeight$.next(value);
-    });
-
-    this.store.subscribeToProp('canvasWidth', (value: number) => {
-      this.canvasWidth$.next(value);
-    });
-
     this.store.dispatch(new SaveHistory());
 
-    this.store.subscribe(state => this.canvasStore$.next(state));
+    this.store.subscribe(state => {
+      if (state) {
+        this.canvasStore$.next(state);
+      }
+    });
 
-    this.canvasStore$.pipe(debounceTime(2_000), takeUntil(this.destroy$)).subscribe(state =>
-      this.workspaceService.update(workspace.id, {
-        ...workspace,
-        state,
-      }),
-    );
-
-    this.canvasStoreInitialized$.next(true);
+    this.canvasStore$
+      .pipe(
+        filter(state => !!state),
+        debounceTime(2_000),
+        takeUntil(this.destroy$),
+      )
+      .subscribe(state =>
+        this.workspaceService.update(workspace.id, {
+          ...workspace,
+          state,
+        }),
+      );
   }
 }

@@ -33,10 +33,14 @@ export class StoreService {
     private storageService: StorageService,
   ) {}
 
-  public install(state?: CanvasBoardState): void {
-    this.state = state ? state : getDefaultState(50);
+  public install(state: CanvasBoardState): void {
+    this.state = state;
     this.pluginFns = this.plugins.map(plugin => plugin.apply());
     this.isReady$.next(true);
+  }
+
+  public unready(): void {
+    this.isReady$.next(false);
   }
 
   public getSnapshot(): CanvasBoardState {

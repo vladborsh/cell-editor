@@ -1,16 +1,18 @@
-<div class="canvas-box">
-  <canvas
-    #canvasRef
-    [height]="canvasHeight$ | async"
-    [width]="canvasWidth$ | async"
-    class="main-canvas"
-  ></canvas>
-</div>
+<ng-container *ngIf="isReady$ | async">
+  <div class="canvas-box">
+    <canvas
+      #canvasRef
+      [height]="canvasHeight$ | async"
+      [width]="canvasWidth$ | async"
+      class="main-canvas"
+    ></canvas>
+  </div>
 
-<div class="layers-container">
-  <app-layers-panel class="layers"></app-layers-panel>
-</div>
+  <div class="layers-container">
+    <app-layers-panel class="layers"></app-layers-panel>
+  </div>
 
-<div class="tools-container">
-  <app-tools-menu class="tools"></app-tools-menu>
-</div>
+  <div class="tools-container">
+    <app-tools-menu class="tools"></app-tools-menu>
+  </div>
+</ng-container>
