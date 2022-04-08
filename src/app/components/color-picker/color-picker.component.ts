@@ -1,12 +1,4 @@
-import {
-  AfterViewInit,
-  Component,
-  ElementRef,
-  EventEmitter,
-  OnInit,
-  Output,
-  ViewChild,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, ViewChild } from '@angular/core';
 import { CursorOverlayService } from 'src/app/services/cursor-overlay/cursor-overlay.service';
 
 import { StoreService } from '../../services/store/store.service';
@@ -16,35 +8,29 @@ import { UpdateColor } from '../../store/actions/update-color.action';
   selector: 'app-color-picker',
   templateUrl: './color-picker.component.html',
   styleUrls: ['./color-picker.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ColorPickerComponent implements OnInit, AfterViewInit {
+export class ColorPickerComponent {
   @ViewChild('inputRef') inputRef: ElementRef<HTMLInputElement>;
-  @Output() clickOutside = new EventEmitter<void>();
 
-  public color = '#e66465';
+  public color$ = this.storeService.select('color');
 
-  constructor(private store: StoreService, private cursorOverlayService: CursorOverlayService) {}
+  constructor(
+    private storeService: StoreService,
+    private cursorOverlayService: CursorOverlayService,
+  ) {}
 
-  ngOnInit(): void {
-    const { color } = this.store.getSnapshot();
-    this.color = `#${color}`;
-  }
-
-  ngAfterViewInit(): void {
-    /* Without this shim inner shadow DOM of color picker won't be
-      positioned in according to component overlay position */
-    setTimeout(() => {
-      this.inputRef.nativeElement.focus();
-      this.inputRef.nativeElement.click();
-    });
+  public onPickerClick(): void {
+    this.inputRef.nativeElement.focus();
+    this.inputRef.nativeElement.click();
   }
 
   public onChange(event: string): void {
-    this.store.dispatch(new UpdateColor(event.replace('#', '')));
+    const color = event.replace('#', '');
+    this.storeService.dispatch(new UpdateColor(color));
   }
 
   public onClickOutside(): void {
-    this.clickOutside.emit();
     this.cursorOverlayService.clickOutside();
   }
 }

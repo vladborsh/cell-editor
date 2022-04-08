@@ -1,7 +1,12 @@
 <div class="color-picker-container">
+  <div
+    [style.background]="'#' + (color$ | async)"
+    (click)="onPickerClick()"
+    class="color-block"
+  ></div>
   <input
     #inputRef
-    [ngModel]="color"
+    [ngModel]="'#' + (color$ | async)"
     (ngModelChange)="onChange($event)"
     (clickOutside)="onClickOutside()"
     type="color"

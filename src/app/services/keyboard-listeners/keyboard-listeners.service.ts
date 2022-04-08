@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
-import { ColorPickerComponent } from '../../components/color-picker/color-picker.component';
 import { ResizeBrushComponent } from '../../components/resize-brush/resize-brush.component';
 import { ResizeGridComponent } from '../../components/resize-grid/resize-grid.component';
 import { SaveFileDialogComponent } from '../../components/save-file-dialog/save-file-dialog.component';
@@ -11,7 +10,6 @@ import { Redo } from '../../store/actions/redo.action';
 import { SetTool } from '../../store/actions/set-tool.action';
 import { Undo } from '../../store/actions/undo.action';
 import { CursorOverlayService } from '../cursor-overlay/cursor-overlay.service';
-import { FileExporterService } from '../file-exporter/file-exporter.service';
 import { StoreService } from '../store/store.service';
 
 @Injectable({
@@ -66,10 +64,6 @@ export class KeyboardListenersService {
       }
       if (event.metaKey && event.code === 'KeyL') {
         this.store.dispatch(new SetTool(Tools.LINE));
-        return;
-      }
-      if (event.metaKey && event.code === 'KeyC') {
-        this.cursorOverlayService.open(ColorPickerComponent);
         return;
       }
       if (event.metaKey && event.code === 'KeyS') {

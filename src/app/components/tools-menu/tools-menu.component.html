@@ -1,23 +1,64 @@
-<mat-card>
-  <button (click)="onSelectBrush()" mat-button>
-    <mat-icon>brush</mat-icon>
-  </button>
-  <button (click)="onResizeBrush()" mat-button>
-    <mat-icon>line_weight</mat-icon>
-  </button>
-  <button (click)="onSelectFill()" mat-button>
-    <mat-icon>format_color_fill</mat-icon>
-  </button>
-  <button (click)="onSelectRectangle()" mat-button>
-    <mat-icon>crop_square</mat-icon>
-  </button>
-  <button (click)="onSelectEllipse()" mat-button>
-    <mat-icon>radio_button_unchecked</mat-icon>
-  </button>
-  <button (click)="onSelectLine()" mat-button>
-    <mat-icon>horizontal_rule</mat-icon>
-  </button>
-  <button (click)="onResizeCanvas()" mat-button>
-    <mat-icon>photo_size_select_large</mat-icon>
-  </button>
-</mat-card>
+<ng-container
+  [ngTemplateOutlet]="tmpl"
+  [ngTemplateOutletContext]="{
+    $implicit: {
+      activeTool: activeTool$ | async,
+      color: color$ | async
+    }
+  }"
+>
+</ng-container>
+
+<ng-template #tmpl let-ctx>
+  <mat-card>
+    <div class="flex">
+      <app-color-picker class="control-btn"></app-color-picker>
+      <button
+        [class._active]="ctx.activeTool === toolsType.BRUSH"
+        (click)="onSelectBrush()"
+        class="control-btn"
+        mat-button
+      >
+        <mat-icon>brush</mat-icon>
+      </button>
+      <button
+        [class._active]="ctx.activeTool === toolsType.FILL"
+        (click)="onSelectFill()"
+        class="control-btn"
+        mat-button
+      >
+        <mat-icon>format_color_fill</mat-icon>
+      </button>
+      <button
+        [class._active]="ctx.activeTool === toolsType.RECTANGLE"
+        (click)="onSelectRectangle()"
+        class="control-btn"
+        mat-button
+      >
+        <mat-icon>crop_square</mat-icon>
+      </button>
+      <button
+        [class._active]="ctx.activeTool === toolsType.ELLIPSE"
+        (click)="onSelectEllipse()"
+        class="control-btn"
+        mat-button
+      >
+        <mat-icon>radio_button_unchecked</mat-icon>
+      </button>
+      <button
+        [class._active]="ctx.activeTool === toolsType.LINE"
+        (click)="onSelectLine()"
+        class="control-btn"
+        mat-button
+      >
+        <mat-icon>horizontal_rule</mat-icon>
+      </button>
+      <button (click)="onResizeBrush()" class="control-btn" mat-button>
+        <mat-icon>line_weight</mat-icon>
+      </button>
+      <button (click)="onResizeCanvas()" class="control-btn" mat-button>
+        <mat-icon>photo_size_select_large</mat-icon>
+      </button>
+    </div>
+  </mat-card>
+</ng-template>

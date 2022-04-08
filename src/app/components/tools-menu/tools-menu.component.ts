@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Tools } from 'src/app/enums/tools.enum';
+import { CursorOverlayService } from 'src/app/services/cursor-overlay/cursor-overlay.service';
 import { StoreService } from 'src/app/services/store/store.service';
 import { SetTool } from 'src/app/store/actions/set-tool.action';
 
@@ -13,7 +14,15 @@ import { ResizeGridComponent } from '../resize-grid/resize-grid.component';
   styleUrls: ['./tools-menu.component.scss'],
 })
 export class ToolsMenuComponent {
-  constructor(private storeService: StoreService, public matDialog: MatDialog) {}
+  public activeTool$ = this.storeService.select('tool');
+  public color$ = this.storeService.select('color');
+  public toolsType = Tools;
+
+  constructor(
+    private storeService: StoreService,
+    public matDialog: MatDialog,
+    public cursorOverlayService: CursorOverlayService,
+  ) {}
 
   public onSelectBrush(): void {
     this.storeService.dispatch(new SetTool(Tools.BRUSH));
