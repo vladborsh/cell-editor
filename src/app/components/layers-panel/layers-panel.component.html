@@ -1,0 +1,37 @@
+<mat-card>
+  <ng-container
+    [ngTemplateOutlet]="tmpl"
+    [ngTemplateOutletContext]="{
+      $implicit: {
+        activeLayer: activeLayer$ | async,
+        layers: layers$ | async
+      }
+    }"
+  >
+  </ng-container>
+
+  <ng-template #tmpl let-ctx>
+    <div
+      *ngFor="let layer of ctx.layers; let i = index"
+      (click)="setActiveLayer(i)"
+      [class._active]="ctx.activeLayer === i"
+      class="layer"
+    >
+      <div class="layer__name">
+        {{ layer.name }}
+      </div>
+      <button
+        *ngIf="ctx.layers.length > 1"
+        (click)="removeLayer(layer.name)"
+        mat-icon-button
+        appClickStopPropagation
+      >
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+  </ng-template>
+
+  <div class="footer">
+    <button (click)="addLayer()" mat-raised-button color="primary">Add layer</button>
+  </div>
+</mat-card>

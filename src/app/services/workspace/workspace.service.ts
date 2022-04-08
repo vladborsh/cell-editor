@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AngularFireDatabase, SnapshotAction } from '@angular/fire/database';
+import { AngularFireDatabase, AngularFireList, SnapshotAction } from '@angular/fire/database';
 import { combineLatest, Observable } from 'rxjs';
 import { map, switchMap, take, tap } from 'rxjs/operators';
 import { Workspace } from 'src/app/interfaces/workspace.interface';
@@ -41,11 +41,15 @@ export class WorkspaceService {
     );
   }
 
-  create(baseWorkspace: Workspace): void {
-    combineLatest([
+  create(baseWorkspace: Workspace): Observable<any> {
+    return combineLatest([
       this.collection$.pipe(take(1)),
       this.enrichCreatePayload(baseWorkspace),
-    ]).subscribe(([collection, workspace]) => collection.push(workspace));
+    ]).pipe(
+      map(([collection, workspace]: [AngularFireList<Workspace>, Workspace]) =>
+        collection.push(workspace),
+      ),
+    );
   }
 
   update(id: string, workspace: Workspace): void {

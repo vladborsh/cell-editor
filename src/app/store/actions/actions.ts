@@ -1,7 +1,10 @@
+import { AddLayer } from './add-layer.action';
 import { Clear } from './clear.action';
+import { DeleteLayer } from './delete-layer.action';
 import { MoveMouse } from './move-mouse.action';
 import { Redo } from './redo.action';
 import { SaveHistory } from './save-history.action';
+import { SetActiveLayer } from './set-layer.action';
 import { SetTool } from './set-tool.action';
 import { Undo } from './undo.action';
 import { UpdateBrushSize } from './update-brush-size.action';
@@ -25,4 +28,7 @@ export type Actions =
   | Redo
   | Clear
   | UpdateBrushSize
-  | UpdateGridSize;
+  | UpdateGridSize
+  | AddLayer
+  | DeleteLayer
+  | SetActiveLayer;

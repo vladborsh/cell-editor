@@ -23,6 +23,20 @@
   height: 100px;
 }
 
+.layers-container {
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  width: 230px;
+  bottom: 140px;
+  left: 30px;
+  right: 0;
+}
+
+.layers {
+  width: 100%;
+}
+
 .tools {
   position: fixed;
   margin-left: 0 auto;

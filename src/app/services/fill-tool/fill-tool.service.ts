@@ -12,9 +12,9 @@ export class FillToolService {
   constructor(private store: StoreService) {}
 
   onSetup(position: Vector): void {
-    const { grid } = this.store.getSnapshot();
+    const { grid, activeLayer } = this.store.getSnapshot();
 
-    this.store.dispatch(new UpdateCells(this.getRenderingCells(position, grid, [])));
+    this.store.dispatch(new UpdateCells(this.getRenderingCells(position, grid[activeLayer], [])));
   }
 
   private getRenderingCells({ x, y }: Vector, grid: string[][], stack: Vector[]): Vector[] {

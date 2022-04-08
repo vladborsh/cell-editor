@@ -24,7 +24,9 @@ export class NewWorkspaceComponent implements OnInit {
 
   public onSubmit(): void {
     if (this.form.valid) {
-      this.workspaceService.create(this.form.value);
+      this.workspaceService.create(this.form.value).subscribe();
+
+      // this.router.navigate([`workspace/${id}`]);
     }
 
     if (this.dialogRef) {
@@ -35,6 +37,8 @@ export class NewWorkspaceComponent implements OnInit {
   private getForm(): FormGroup {
     return this.formBuilder.group({
       name: ['', Validators.required],
+      gridSizeX: [''],
+      gridSizeY: [''],
     });
   }
 }

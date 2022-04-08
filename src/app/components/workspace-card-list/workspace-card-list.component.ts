@@ -28,6 +28,10 @@ export class WorkspaceCardListComponent implements OnInit {
     this.workspaces$ = this.workspaceService.getItemList$();
   }
 
+  public trackById(workspace: Workspace): string {
+    return workspace.id;
+  }
+
   public onSelect(id: string): void {
     this.router.navigate([`workspace/${id}`]);
   }

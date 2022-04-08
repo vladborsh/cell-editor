@@ -1,9 +1,19 @@
-export function copy<T>(arr: T[][]) {
+import { HistoryFragment } from '../interfaces/history-fragment.interface';
+
+export function copyHistoryFragment(fragment: HistoryFragment): HistoryFragment {
   const newArr = [];
 
-  for (const row of arr) {
-    newArr.push([...row]);
+  for (const layer of fragment.grid) {
+    const newLayer = [];
+    for (const row of layer) {
+      newLayer.push([...row]);
+    }
+    newArr.push([...newLayer]);
   }
 
-  return newArr;
+  return {
+    grid: newArr,
+    activeLayer: fragment.activeLayer,
+    layers: [...fragment.layers],
+  };
 }

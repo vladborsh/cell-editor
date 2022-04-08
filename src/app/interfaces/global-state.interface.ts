@@ -1,4 +1,6 @@
 import { Tools } from '../enums/tools.enum';
+import { HistoryFragment } from './history-fragment.interface';
+import { Layer } from './layer.interface';
 import { Vector } from './vector.interface';
 
 export interface CanvasBoardState {
@@ -11,8 +13,10 @@ export interface CanvasBoardState {
   cellSize: number;
   cellNumberX: number;
   cellNumberY: number;
-  grid: string[][];
-  history: string[][][];
+  activeLayer: number;
+  grid: string[][][];
+  layers: Layer[];
+  history: HistoryFragment[];
   historyHead: number;
   tool: Tools;
   toolTemporalLayer: Vector[];

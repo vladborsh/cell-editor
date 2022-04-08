@@ -105,7 +105,7 @@ export class CursorListenerService {
   }
 
   private movePressedMouse({ x, y }: Vector): void {
-    const { tool, brushSize, grid } = this.store.getSnapshot();
+    const { tool, brushSize, grid, activeLayer } = this.store.getSnapshot();
     if (tool === Tools.BRUSH) {
       if (brushSize === 1) {
         this.store.dispatch(new UpdateCells([{ x, y }]));
@@ -121,7 +121,7 @@ export class CursorListenerService {
       }
     }
     if (tool === Tools.PIPET) {
-      this.store.dispatch(new UpdateColor(grid[x][y]));
+      this.store.dispatch(new UpdateColor(grid[activeLayer][x][y]));
     }
     if (tool === Tools.ELLIPSE) {
       this.ellipseTool.onMove({ x, y });

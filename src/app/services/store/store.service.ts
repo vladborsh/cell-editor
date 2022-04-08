@@ -1,11 +1,13 @@
 import { Inject, Injectable } from '@angular/core';
+import { BehaviorSubject, Observable, Observer } from 'rxjs';
+import { filter, take } from 'rxjs/operators';
 import { REDUCERS } from 'src/app/tokens/reducers.token';
 import { STORE_PLUGINS } from 'src/app/tokens/store-plugins.token';
 
 import { ActionTypes } from '../../enums/actions-type.enum';
 import { CanvasBoardState } from '../../interfaces/global-state.interface';
 import { Actions } from '../../store/actions/actions';
-import { defaultState } from '../../store/default-state';
+import { getDefaultState } from '../../store/default-state';
 import { PluginInterface } from '../../store/plugins/pluggin.interface';
 import { StorageService } from '../storage/storage.service';
 
@@ -13,6 +15,8 @@ import { StorageService } from '../storage/storage.service';
   providedIn: 'root',
 })
 export class StoreService {
+  public readonly isReady$ = new BehaviorSubject<boolean>(false);
+
   private state: CanvasBoardState;
   private listeners: Record<string, ((val: CanvasBoardState[keyof CanvasBoardState]) => void)[]> =
     {};
@@ -30,8 +34,9 @@ export class StoreService {
   ) {}
 
   public install(state?: CanvasBoardState): void {
-    this.state = state ? state : defaultState;
+    this.state = state ? state : getDefaultState(50);
     this.pluginFns = this.plugins.map(plugin => plugin.apply());
+    this.isReady$.next(true);
   }
 
   public getSnapshot(): CanvasBoardState {
@@ -52,6 +57,22 @@ export class StoreService {
 
   public subscribe(listener: (val: CanvasBoardState) => void): void {
     this.generalListeners.push(listener);
+  }
+
+  public select<T extends keyof CanvasBoardState>(propName: T): Observable<CanvasBoardState[T]> {
+    return new Observable((observer: Observer<CanvasBoardState[T]>) => {
+      if (!this.listeners[propName]) {
+        this.listeners[propName] = [];
+      }
+
+      this.listeners[propName].push((value: CanvasBoardState[T]) => observer.next(value));
+
+      this.isReady$.pipe(filter(Boolean), take(1)).subscribe(() => {
+        if (this.state[propName] !== undefined) {
+          observer.next(this.state[propName]);
+        }
+      });
+    });
   }
 
   public subscribeToProp<T extends keyof CanvasBoardState>(

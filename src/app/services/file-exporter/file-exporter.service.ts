@@ -9,7 +9,7 @@ export class FileExporterService {
     cellSize: number,
     cellNumberX: number,
     cellNumberY: number,
-    grid: string[][],
+    grid: string[][][],
   ) {
     const anchor = document.createElement('a');
     anchor.setAttribute('href', this.getUrl(cellNumberX, cellNumberY, grid, cellSize));
@@ -23,7 +23,7 @@ export class FileExporterService {
   private getUrl(
     cellNumberX: number,
     cellNumberY: number,
-    grid: string[][],
+    grid: string[][][],
     cellSize: number,
   ): string {
     const canvas = document.createElement('canvas');
@@ -31,13 +31,15 @@ export class FileExporterService {
     canvas.width = cellNumberY * cellSize;
     canvas.height = cellNumberX * cellSize;
 
-    for (let i = 0; i < cellNumberX; i++) {
-      for (let j = 0; j < cellNumberY; j++) {
-        if (!grid[i][j]) {
-          continue;
+    for (let layer = 0; layer < grid.length; layer++) {
+      for (let i = 0; i < cellNumberX; i++) {
+        for (let j = 0; j < cellNumberY; j++) {
+          if (!grid[i][j]) {
+            continue;
+          }
+          context.fillStyle = `#${grid[i][j]}`;
+          context.fillRect(i * cellSize, j * cellSize, cellSize, cellSize);
         }
-        context.fillStyle = `#${grid[i][j]}`;
-        context.fillRect(i * cellSize, j * cellSize, cellSize, cellSize);
       }
     }
 

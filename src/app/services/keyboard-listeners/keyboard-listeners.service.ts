@@ -39,44 +39,44 @@ export class KeyboardListenersService {
         this.store.dispatch(new Undo());
         return;
       }
-      if (event.metaKey && event.code === 'KeyS') {
+      if (event.shiftKey && event.metaKey && event.code === 'KeyS') {
         event.preventDefault();
         this.matDialog.open(SaveFileDialogComponent);
         return;
       }
-      if (event.code === 'KeyP') {
+      if (event.metaKey && event.code === 'KeyP') {
         this.store.dispatch(new SetTool(Tools.PIPET));
         return;
       }
-      if (event.code === 'KeyB') {
+      if (event.metaKey && event.code === 'KeyB') {
         this.store.dispatch(new SetTool(Tools.BRUSH));
         return;
       }
-      if (event.code === 'KeyE') {
+      if (event.metaKey && event.code === 'KeyE') {
         this.store.dispatch(new SetTool(Tools.ELLIPSE));
         return;
       }
-      if (event.code === 'KeyR') {
+      if (event.metaKey && event.code === 'KeyR') {
         this.store.dispatch(new SetTool(Tools.RECTANGLE));
         return;
       }
-      if (event.code === 'KeyF') {
+      if (event.metaKey && event.code === 'KeyF') {
         this.store.dispatch(new SetTool(Tools.FILL));
         return;
       }
-      if (event.code === 'KeyL') {
+      if (event.metaKey && event.code === 'KeyL') {
         this.store.dispatch(new SetTool(Tools.LINE));
         return;
       }
-      if (event.code === 'KeyC') {
+      if (event.metaKey && event.code === 'KeyC') {
         this.cursorOverlayService.open(ColorPickerComponent);
         return;
       }
-      if (event.code === 'KeyS') {
+      if (event.metaKey && event.code === 'KeyS') {
         this.matDialog.open(ResizeBrushComponent);
         return;
       }
-      if (event.code === 'KeyG') {
+      if (event.metaKey && event.code === 'KeyG') {
         this.matDialog.open(ResizeGridComponent);
         return;
       }

@@ -1,6 +1,6 @@
 <div class="container">
   <app-workspace-card
-    *ngFor="let item of workspaces$ | async"
+    *ngFor="let item of workspaces$ | async; trackBy: trackById"
     [workspace]="item"
     (click)="onSelect(item.id)"
     (remove)="onRemove($event)"
