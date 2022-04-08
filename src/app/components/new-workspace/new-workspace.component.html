@@ -7,12 +7,12 @@
 
     <mat-form-field class="full-width" appearance="fill">
       <mat-label>Width</mat-label>
-      <input formControlName="gridSizeX" matInput type="number" name="grid-size-x" />
+      <input formControlName="width" matInput type="number" name="grid-size-x" />
     </mat-form-field>
 
     <mat-form-field class="full-width" appearance="fill">
       <mat-label>Height</mat-label>
-      <input formControlName="gridSizeY" matInput type="number" name="grid-size-y" />
+      <input formControlName="height" matInput type="number" name="grid-size-y" />
     </mat-form-field>
 
     <button [disabled]="!form.valid" (click)="onSubmit()" mat-button>OK</button>

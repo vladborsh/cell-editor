@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, OnInit, Optional } from '@angular/c
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { WorkspaceService } from 'src/app/services/workspace/workspace.service';
+import { DEFAULT_SIZE } from 'src/app/store/default-state';
 
 @Component({
   selector: 'app-new-workspace',
@@ -37,8 +38,8 @@ export class NewWorkspaceComponent implements OnInit {
   private getForm(): FormGroup {
     return this.formBuilder.group({
       name: ['', Validators.required],
-      gridSizeX: [''],
-      gridSizeY: [''],
+      width: [DEFAULT_SIZE],
+      height: [DEFAULT_SIZE],
     });
   }
 }

@@ -2,7 +2,9 @@ import { Injectable } from '@angular/core';
 import { AngularFireDatabase, AngularFireList, SnapshotAction } from '@angular/fire/database';
 import { combineLatest, Observable } from 'rxjs';
 import { map, switchMap, take, tap } from 'rxjs/operators';
+import { NewWorkspaceForm } from 'src/app/components/new-workspace/new-workspace-from.interface';
 import { Workspace } from 'src/app/interfaces/workspace.interface';
+import { getDefaultState } from 'src/app/store/default-state';
 
 import { AuthService } from '../auth/auth.service';
 
@@ -24,7 +26,7 @@ export class WorkspaceService {
     return this.collection$.pipe(
       switchMap(collection => collection.snapshotChanges()),
       map((items: SnapshotAction<Workspace>[]) =>
-        items.map(action => ({ id: action.key, ...action.payload.val() })),
+        items.map(action => ({ ...action.payload.val(), id: action.key })),
       ),
     );
   }
@@ -36,12 +38,12 @@ export class WorkspaceService {
           .object<Workspace>(`${WORKSPACE_COLLECTION_NAME}/${uid}/${workspaceId}`)
           .snapshotChanges(),
       ),
-      map((action: SnapshotAction<Workspace>) => ({ id: action.key, ...action.payload.val() })),
+      map((action: SnapshotAction<Workspace>) => ({ ...action.payload.val(), id: action.key })),
       take(1),
     );
   }
 
-  create(baseWorkspace: Workspace): Observable<any> {
+  create(baseWorkspace: NewWorkspaceForm): Observable<any> {
     return combineLatest([
       this.collection$.pipe(take(1)),
       this.enrichCreatePayload(baseWorkspace),
@@ -62,16 +64,18 @@ export class WorkspaceService {
     });
   }
 
-  private enrichCreatePayload(workspace: Workspace): Observable<Workspace> {
+  private enrichCreatePayload({ name, height, width }: NewWorkspaceForm): Observable<Workspace> {
     return combineLatest([this.authService.getUserId(), this.authService.getUserName()]).pipe(
       take(1),
       map(([userId, userName]) => ({
-        ...workspace,
+        id: '',
+        name,
+        state: getDefaultState(width, height),
         createdDate: Date.now(),
         createdBy: userId,
         createdByName: userName,
         lastModifiedDate: Date.now(),
-        lastModifiedBy: userId,
+        lastModifiedById: userId,
         lastModifiedByName: userName,
         views: 0,
       })),

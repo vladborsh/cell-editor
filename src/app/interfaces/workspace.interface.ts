@@ -8,7 +8,7 @@ export interface Workspace {
   createdByName: string;
   createdBy: string;
   lastModifiedDate: number;
-  lastModifiedById: number;
+  lastModifiedById: string;
   lastModifiedByName: string;
   views: number;
 }

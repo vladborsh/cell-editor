@@ -33,6 +33,7 @@ export class WorkspaceCardListComponent implements OnInit {
   }
 
   public onSelect(id: string): void {
+    console.log(id);
     this.router.navigate([`workspace/${id}`]);
   }
 
