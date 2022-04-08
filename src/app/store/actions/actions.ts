@@ -12,6 +12,7 @@ import { UpdateCellSize } from './update-cell-size.action';
 import { UpdateCells } from './update-cells.action';
 import { UpdateColor } from './update-color.action';
 import { UpdateGridSize } from './update-grid-size.action';
+import { UpdateLayer } from './update-layer.action';
 import { UpdateToolLayerCells } from './update-tool-layer-cells.action';
 import { UpdateZoom } from './update-zoom.action';
 
@@ -31,4 +32,5 @@ export type Actions =
   | UpdateGridSize
   | AddLayer
   | DeleteLayer
+  | UpdateLayer
   | SetActiveLayer;

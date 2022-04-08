@@ -20,9 +20,9 @@ export class SaveFileDialogComponent {
   ) {}
 
   onSubmit(): void {
-    const { cellNumberX, cellNumberY, grid } = this.storeService.getSnapshot();
+    const { cellNumberX, cellNumberY, grid, layers } = this.storeService.getSnapshot();
 
-    this.fileExporter.export(this.fileName, this.cellSize, cellNumberX, cellNumberY, grid);
+    this.fileExporter.export(this.fileName, this.cellSize, cellNumberX, cellNumberY, grid, layers);
     this.dialogRef.close();
   }
 }

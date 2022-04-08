@@ -23,6 +23,7 @@ export function getDefaultState(
     layers: [
       {
         name: 'Layer_0',
+        opacity: 100,
       },
     ],
     history: [],

@@ -17,6 +17,7 @@ import { UpdateCellSize } from './actions/update-cell-size.action';
 import { UpdateCells } from './actions/update-cells.action';
 import { UpdateColor } from './actions/update-color.action';
 import { UpdateGridSize } from './actions/update-grid-size.action';
+import { UpdateLayer } from './actions/update-layer.action';
 import { UpdateToolLayerCells } from './actions/update-tool-layer-cells.action';
 import { UpdateZoom } from './actions/update-zoom.action';
 import { DEFAULT_SIZE } from './default-state';
@@ -191,10 +192,17 @@ export const reducers: Record<
         ),
       ],
       activeLayer: layers.length,
-      layers: [...state.layers, { name: `Layer_${lastLayerIndex + 1}` }],
+      layers: [...state.layers, { name: `Layer_${lastLayerIndex + 1}`, opacity: 100 }],
     };
   },
-  [ActionTypes.UPDATE_LAYER]: (_, state: CanvasBoardState) => state,
+  [ActionTypes.UPDATE_LAYER]: ({ layer }: UpdateLayer, state: CanvasBoardState) => {
+    const index = state.layers.findIndex(iLayer => iLayer.name === layer.name);
+
+    return {
+      ...state,
+      layers: state.layers.map((iLayer, i) => (i === index ? { ...iLayer, ...layer } : iLayer)),
+    };
+  },
   [ActionTypes.DELETE_LAYER]: ({ name }: DeleteLayer, state: CanvasBoardState) => {
     const index = state.layers.findIndex(layer => layer.name === name);
     const activeLayerInitial = state.activeLayer === index ? index - 1 : state.activeLayer;

@@ -14,6 +14,6 @@ export function copyHistoryFragment(fragment: HistoryFragment): HistoryFragment 
   return {
     grid: newArr,
     activeLayer: fragment.activeLayer,
-    layers: [...fragment.layers],
+    layers: fragment.layers.map(iLayer => ({ ...iLayer })),
   };
 }

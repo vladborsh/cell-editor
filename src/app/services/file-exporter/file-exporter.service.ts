@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Layer } from 'src/app/interfaces/layer.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -10,9 +11,10 @@ export class FileExporterService {
     cellNumberX: number,
     cellNumberY: number,
     grid: string[][][],
+    layers: Layer[],
   ) {
     const anchor = document.createElement('a');
-    anchor.setAttribute('href', this.getUrl(cellNumberX, cellNumberY, grid, cellSize));
+    anchor.setAttribute('href', this.getUrl(cellSize, cellNumberX, cellNumberY, grid, layers));
     anchor.setAttribute('download', fileName);
     anchor.style.display = 'none';
     document.body.append(anchor);
@@ -21,10 +23,11 @@ export class FileExporterService {
   }
 
   private getUrl(
+    cellSize: number,
     cellNumberX: number,
     cellNumberY: number,
     grid: string[][][],
-    cellSize: number,
+    layers: Layer[],
   ): string {
     const canvas = document.createElement('canvas');
     const context = canvas.getContext('2d');
@@ -34,10 +37,11 @@ export class FileExporterService {
     for (let layer = 0; layer < grid.length; layer++) {
       for (let i = 0; i < cellNumberX; i++) {
         for (let j = 0; j < cellNumberY; j++) {
-          if (!grid[i][j]) {
+          if (!grid[layer][i][j]) {
             continue;
           }
-          context.fillStyle = `#${grid[i][j]}`;
+          context.globalAlpha = layers[layer].opacity / 100;
+          context.fillStyle = `#${grid[layer][i][j]}`;
           context.fillRect(i * cellSize, j * cellSize, cellSize, cellSize);
         }
       }

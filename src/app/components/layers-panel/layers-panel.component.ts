@@ -6,6 +6,7 @@ import { AddLayer } from 'src/app/store/actions/add-layer.action';
 import { DeleteLayer } from 'src/app/store/actions/delete-layer.action';
 import { SaveHistory } from 'src/app/store/actions/save-history.action';
 import { SetActiveLayer } from 'src/app/store/actions/set-layer.action';
+import { UpdateLayer } from 'src/app/store/actions/update-layer.action';
 
 import { StoreService } from '../../services/store/store.service';
 
@@ -39,5 +40,14 @@ export class LayersPanelComponent implements OnInit {
   public removeLayer(name: string): void {
     this.storeService.dispatch(new DeleteLayer(name));
     this.storeService.dispatch(new SaveHistory());
+  }
+
+  public onOpacityChange(name: string, event: string): void {
+    this.storeService.dispatch(new UpdateLayer({ name, opacity: Number(event) }));
+    this.storeService.dispatch(new SaveHistory());
+  }
+
+  public trackByName({ name }: Layer): string {
+    return name;
   }
 }
