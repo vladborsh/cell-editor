@@ -12,7 +12,7 @@
 
   <ng-template #tmpl let-ctx>
     <div
-      *ngFor="let layer of ctx.layers; let i = index"
+      *ngFor="let layer of ctx.layers; let i = index; trackBy: trackByName"
       (click)="setActiveLayer(i)"
       [class._active]="ctx.activeLayer === i"
       class="layer"
@@ -20,14 +20,39 @@
       <div class="layer__name">
         {{ layer.name }}
       </div>
-      <button
-        *ngIf="ctx.layers.length > 1"
-        (click)="removeLayer(layer.name)"
-        mat-icon-button
-        appClickStopPropagation
-      >
-        <mat-icon>close</mat-icon>
-      </button>
+      <div class="container">
+        <button
+          mat-icon-button
+          [matMenuTriggerFor]="layerMenu"
+          appClickStopPropagation
+        >
+          <mat-icon>more_vert</mat-icon>
+        </button>
+        <button
+          *ngIf="ctx.layers.length > 1"
+          (click)="removeLayer(layer.name)"
+          mat-icon-button
+          appClickStopPropagation
+        >
+          <mat-icon>close</mat-icon>
+        </button>
+        <mat-menu #layerMenu="matMenu">
+          <button mat-menu-item>Item 1</button>
+          <button mat-menu-item>Item 2</button>
+          <div class="opacity_container">
+            <mat-slider
+              [ngModel]="layer.opacity"
+              (ngModelChange)="onOpacityChange(layer.name, $event)"
+              appClickStopPropagation
+              min="0"
+              max="100"
+              step="10"
+            >
+            </mat-slider>
+            {{ layer.opacity }}
+          </div>
+        </mat-menu>
+      </div>
     </div>
   </ng-template>
 
