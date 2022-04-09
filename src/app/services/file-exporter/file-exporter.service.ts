@@ -13,11 +13,12 @@ export class FileExporterService {
     grid: string[][][],
     layers: Layer[],
     isSpriteMap = false,
+    isFlipped = false,
   ) {
     const anchor = document.createElement('a');
     let url: string;
     if (isSpriteMap) {
-      url = this.getUrlSpriteMap(cellSize, cellNumberX, cellNumberY, grid, layers);
+      url = this.getUrlSpriteMap(cellSize, cellNumberX, cellNumberY, grid, isFlipped);
     } else {
       url = this.getUrlSingle(cellSize, cellNumberX, cellNumberY, grid, layers);
     }
@@ -62,8 +63,10 @@ export class FileExporterService {
     cellNumberX: number,
     cellNumberY: number,
     grid: string[][][],
-    layers: Layer[],
+    isFlipped = false,
   ): string {
+    console.log(isFlipped);
+
     const canvas = document.createElement('canvas');
     const context = canvas.getContext('2d');
     const width = cellNumberY * cellSize;
@@ -73,10 +76,17 @@ export class FileExporterService {
     for (let layer = 0; layer < grid.length; layer++) {
       for (let i = 0; i < cellNumberX; i++) {
         for (let j = 0; j < cellNumberY; j++) {
-          if (!grid[layer][i][j]) {
-            continue;
+          if (isFlipped) {
+            if (!grid[layer][cellNumberX - 1 - i][j]) {
+              continue;
+            }
+            context.fillStyle = `#${grid[layer][cellNumberX - 1 - i][j]}`;
+          } else {
+            if (!grid[layer][i][j]) {
+              continue;
+            }
+            context.fillStyle = `#${grid[layer][i][j]}`;
           }
-          context.fillStyle = `#${grid[layer][i][j]}`;
           context.fillRect(layer * width + i * cellSize, j * cellSize, cellSize, cellSize);
         }
       }

@@ -11,6 +11,9 @@
 <div>
   <mat-checkbox [(ngModel)]="isSpriteMap"> Is sprite map </mat-checkbox>
 </div>
+<div *ngIf="isSpriteMap">
+  <mat-checkbox [(ngModel)]="isFlipped"> Is flipped sprite map </mat-checkbox>
+</div>
 
 <div>
   <button (click)="onSubmit()" mat-button>Save</button>

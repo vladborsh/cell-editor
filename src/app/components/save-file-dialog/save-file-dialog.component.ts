@@ -13,6 +13,8 @@ export class SaveFileDialogComponent {
   public fileName = 'Untitled';
   public cellSize = 3;
   public isSpriteMap = false;
+  public isFlipped = false;
+
   constructor(
     private storeService: StoreService,
     private fileExporter: FileExporterService,
@@ -30,6 +32,7 @@ export class SaveFileDialogComponent {
       grid,
       layers,
       this.isSpriteMap,
+      this.isFlipped,
     );
 
     this.dialogRef.close();
