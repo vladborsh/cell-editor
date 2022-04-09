@@ -33,6 +33,7 @@ describe('reducers', () => {
       grid: [Array.from({ length: width }, () => Array.from({ length: height }, () => ''))],
       layers: [
         {
+          opacity: 100,
           name: 'Layer_0',
         },
       ],
@@ -232,7 +233,10 @@ describe('reducers', () => {
         ],
       ]);
       expect(state.activeLayer).toEqual(1);
-      expect(state.layers).toEqual([{ name: 'Layer_0' }, { name: 'Layer_1' }]);
+      expect(state.layers).toEqual([
+        { name: 'Layer_0', opacity: 100 },
+        { name: 'Layer_1', opacity: 100 },
+      ]);
     });
 
     it('undo layer creation', () => {
@@ -257,7 +261,7 @@ describe('reducers', () => {
         ],
       ]);
       expect(state.activeLayer).toEqual(0);
-      expect(state.layers).toEqual([{ name: 'Layer_0' }]);
+      expect(state.layers).toEqual([{ name: 'Layer_0', opacity: 100 }]);
     });
 
     it('redo layer creation', () => {
@@ -288,7 +292,42 @@ describe('reducers', () => {
         ],
       ]);
       expect(state.activeLayer).toEqual(1);
-      expect(state.layers).toEqual([{ name: 'Layer_0' }, { name: 'Layer_1' }]);
+      expect(state.layers).toEqual([
+        { name: 'Layer_0', opacity: 100 },
+        { name: 'Layer_1', opacity: 100 },
+      ]);
+    });
+  });
+
+  describe('should process history', () => {
+    it('undo actions', () => {
+      const actions = [
+        new UpdateCells([
+          { x: 1, y: 1 },
+          { x: 2, y: 1 },
+        ]),
+        new SaveHistory(),
+        new UpdateColor('3377aa'),
+        new UpdateCells([
+          { x: 0, y: 2 },
+          { x: 1, y: 2 },
+        ]),
+        new SaveHistory(),
+        new UpdateCells([{ x: 2, y: 0 }]),
+        new SaveHistory(),
+        new Undo(),
+      ];
+
+      state = reduceAll(actions, state);
+
+      // expect(state.historyHead)
+      expect(state.grid).toEqual([
+        [
+          ['', '', '3377aa'],
+          ['', '333333', '3377aa'],
+          ['', '333333', ''],
+        ],
+      ]);
     });
   });
 });
