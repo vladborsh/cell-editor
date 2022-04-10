@@ -136,10 +136,18 @@ export const reducers: Record<
       cursorPosition: { x: state.cursorPosition.x * ratio, y: state.cursorPosition.y * ratio },
     };
   },
-  [ActionTypes.UPDATE_CELLS]: ({ positions }: UpdateCells, state: CanvasBoardState) => {
-    for (const { x, y } of positions) {
-      if (x >= 0 && x < state.grid[0].length && y >= 0 && y < state.grid[0][0].length) {
-        state.grid[state.activeLayer][x][y] = state.color;
+  [ActionTypes.UPDATE_CELLS]: ({ positions, isEraser }: UpdateCells, state: CanvasBoardState) => {
+    if (isEraser) {
+      for (const { x, y } of positions) {
+        if (x >= 0 && x < state.grid[0].length && y >= 0 && y < state.grid[0][0].length) {
+          state.grid[state.activeLayer][x][y] = '';
+        }
+      }
+    } else {
+      for (const { x, y } of positions) {
+        if (x >= 0 && x < state.grid[0].length && y >= 0 && y < state.grid[0][0].length) {
+          state.grid[state.activeLayer][x][y] = state.color;
+        }
       }
     }
     return {

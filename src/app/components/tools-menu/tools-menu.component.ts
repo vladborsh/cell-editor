@@ -32,6 +32,10 @@ export class ToolsMenuComponent {
     this.matDialog.open(ResizeBrushComponent);
   }
 
+  public onSelectEraser(): void {
+    this.storeService.dispatch(new SetTool(Tools.ERASER));
+  }
+
   public onSelectFill(): void {
     this.storeService.dispatch(new SetTool(Tools.FILL));
   }

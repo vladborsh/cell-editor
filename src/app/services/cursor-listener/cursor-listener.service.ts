@@ -106,9 +106,9 @@ export class CursorListenerService {
 
   private movePressedMouse({ x, y }: Vector): void {
     const { tool, brushSize, grid, activeLayer } = this.store.getSnapshot();
-    if (tool === Tools.BRUSH) {
+    if (tool === Tools.BRUSH || tool === Tools.ERASER) {
       if (brushSize === 1) {
-        this.store.dispatch(new UpdateCells([{ x, y }]));
+        this.store.dispatch(new UpdateCells([{ x, y }], tool === Tools.ERASER));
       } else {
         this.store.dispatch(
           new UpdateCells(
@@ -116,6 +116,7 @@ export class CursorListenerService {
               { x, y },
               { x: brushSize - 1, y: brushSize - 1 },
             ),
+            tool === Tools.ERASER,
           ),
         );
       }

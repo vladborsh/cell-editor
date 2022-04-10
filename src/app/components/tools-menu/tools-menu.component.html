@@ -22,6 +22,14 @@
         <mat-icon>brush</mat-icon>
       </button>
       <button
+        [class._active]="ctx.activeTool === toolsType.ERASER"
+        (click)="onSelectEraser()"
+        class="control-btn"
+        mat-button
+      >
+        <mat-icon>auto_fix_normal</mat-icon>
+      </button>
+      <button
         [class._active]="ctx.activeTool === toolsType.FILL"
         (click)="onSelectFill()"
         class="control-btn"

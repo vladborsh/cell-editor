@@ -42,7 +42,7 @@ export class RendererService {
 
     this.canvas.context.strokeStyle = '#222';
 
-    if (tool === Tools.BRUSH) {
+    if (tool === Tools.BRUSH || tool === Tools.ERASER) {
       this.canvas.context.beginPath();
       this.canvas.context.arc(x, y, brushSize * cellSize, 0, 2 * Math.PI);
       this.canvas.context.stroke();
