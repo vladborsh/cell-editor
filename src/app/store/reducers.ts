@@ -86,15 +86,34 @@ export const reducers: Record<
   [ActionTypes.UPDATE_GRID_SIZE]: ({ newGridSize }: UpdateGridSize, state: CanvasBoardState) => {
     const newGrid = [];
 
-    for (let i = 0; i < newGridSize.x; i++) {
-      newGrid.push([]);
-      for (let j = 0; j < newGridSize.y; j++) {
-        if (state.grid[i]) {
-          newGrid[i].push(state.grid[i][j] || null);
+    for (let iLayer = 0; iLayer < state.grid.length; iLayer++) {
+      const newLayer = [];
+      for (let iRow = 0; iRow < state.grid[iLayer].length; iRow++) {
+        newLayer.push([...state.grid[iLayer][iRow]]);
+
+        if (state.grid[iLayer][iRow].length < newGridSize.x) {
+          for (let i = state.grid[iLayer][iRow].length; i < newGridSize.x; i++) {
+            newLayer[iRow].push('');
+          }
         } else {
-          newGrid[i].push(null);
+          for (let i = newGridSize.x; i >= state.grid[iLayer][iRow].length - 1; i--) {
+            newLayer[iRow].pop();
+          }
         }
       }
+      if (state.grid[iLayer].length < newGridSize.y) {
+        for (let i = state.grid[iLayer].length; i < newGridSize.y; i++) {
+          newLayer.push([]);
+          for (let j = 0; j < newGridSize.x; j++) {
+            newLayer[i].push('');
+          }
+        }
+      } else {
+        for (let i = newGridSize.y; i >= state.grid[iLayer].length - 1; i--) {
+          newLayer.pop();
+        }
+      }
+      newGrid.push([...newLayer]);
     }
 
     return {

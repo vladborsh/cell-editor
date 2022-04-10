@@ -1,5 +1,6 @@
 import { Component, OnInit, Optional } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
+import { SaveHistory } from 'src/app/store/actions/save-history.action';
 
 import { StoreService } from '../../services/store/store.service';
 import { UpdateGridSize } from '../../store/actions/update-grid-size.action';
@@ -29,6 +30,7 @@ export class ResizeGridComponent implements OnInit {
         y: Number(this.gridSizeY),
       }),
     );
+    this.store.dispatch(new SaveHistory());
 
     if (this.dialogRef) {
       this.dialogRef.close();
