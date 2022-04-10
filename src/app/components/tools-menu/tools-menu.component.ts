@@ -4,8 +4,8 @@ import { Tools } from 'src/app/enums/tools.enum';
 import { CursorOverlayService } from 'src/app/services/cursor-overlay/cursor-overlay.service';
 import { StoreService } from 'src/app/services/store/store.service';
 import { SetTool } from 'src/app/store/actions/set-tool.action';
+import { UpdateBrushSize } from 'src/app/store/actions/update-brush-size.action';
 
-import { ResizeBrushComponent } from '../resize-brush/resize-brush.component';
 import { ResizeGridComponent } from '../resize-grid/resize-grid.component';
 
 @Component({
@@ -16,6 +16,7 @@ import { ResizeGridComponent } from '../resize-grid/resize-grid.component';
 export class ToolsMenuComponent {
   public activeTool$ = this.storeService.select('tool');
   public color$ = this.storeService.select('color');
+  public brushSize$ = this.storeService.select('brushSize');
   public toolsType = Tools;
 
   constructor(
@@ -28,8 +29,8 @@ export class ToolsMenuComponent {
     this.storeService.dispatch(new SetTool(Tools.BRUSH));
   }
 
-  public onResizeBrush(): void {
-    this.matDialog.open(ResizeBrushComponent);
+  public onResizeBrush(event: string): void {
+    this.storeService.dispatch(new UpdateBrushSize(Number(event)));
   }
 
   public onSelectEraser(): void {

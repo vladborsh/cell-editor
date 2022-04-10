@@ -69,7 +69,10 @@
       >
         <mat-icon>colorize</mat-icon>
       </button>
-      <button (click)="onResizeBrush()" class="control-btn" mat-button>
+      <button
+        [matMenuTriggerFor]="lineWeightMenu"
+        class="control-btn"
+        mat-button>
         <mat-icon>line_weight</mat-icon>
       </button>
       <button (click)="onResizeCanvas()" class="control-btn" mat-button>
@@ -78,3 +81,17 @@
     </div>
   </mat-card>
 </ng-template>
+
+<mat-menu #lineWeightMenu="matMenu">
+  <div class="brush-resize-container">
+    {{ brushSize$ | async }}
+    <mat-slider
+      [ngModel]="brushSize$ | async"
+      (ngModelChange)="onResizeBrush($event)"
+      min="1"
+      max="10"
+      step="1"
+    >
+    </mat-slider>
+  </div>
+</mat-menu>

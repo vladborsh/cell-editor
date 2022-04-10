@@ -13,7 +13,6 @@ import { ColorPickerModule } from './components/color-picker/color-picker.module
 import { ConfirmationDialogModule } from './components/confirmation-dialog/confirmation-dialog.module';
 import { HeaderToolbarModule } from './components/header-toolbar/header-toolbar.module';
 import { HomeModule } from './components/home/home.module';
-import { ResizeBrushModule } from './components/resize-brush/resize-brush.module';
 import { ResizeGridModule } from './components/resize-grid/resize-grid.module';
 import { SaveFileDialogModule } from './components/save-file-dialog/save-file-dialog.module';
 import { LoggerPlugin } from './store/plugins/logger.plugin';
@@ -30,7 +29,6 @@ import { STORE_PLUGINS } from './tokens/store-plugins.token';
     OverlayModule,
     CanvasModule,
     SaveFileDialogModule,
-    ResizeBrushModule,
     ResizeGridModule,
     ColorPickerModule,
     HomeModule,
