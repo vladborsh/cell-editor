@@ -5,6 +5,7 @@ import { copyHistoryFragment } from '../utils/copy.helper';
 import { Actions } from './actions/actions';
 import { AddLayer } from './actions/add-layer.action';
 import { Clear } from './actions/clear.action';
+import { CopyLayer } from './actions/copy-layer.action';
 import { DeleteLayer } from './actions/delete-layer.action';
 import { MoveMouse } from './actions/move-mouse.action';
 import { Redo } from './actions/redo.action';
@@ -191,6 +192,22 @@ export const reducers: Record<
           Array.from({ length: state.cellNumberY }, () => ''),
         ),
       ],
+      activeLayer: layers.length,
+      layers: [
+        ...state.layers,
+        { name: `Layer_${lastLayerIndex + 1}`, opacity: 100, isShown: true },
+      ],
+    };
+  },
+  [ActionTypes.COPY_LAYER]: ({ name }: CopyLayer, state: CanvasBoardState) => {
+    const layers = state.layers;
+    const lastLayerName = layers[layers.length - 1]?.name;
+    const lastLayerIndex = Number(lastLayerName.split('_')[1]);
+    const toCopyLayerIndex = state.layers.findIndex(iLayer => iLayer.name === name);
+
+    return {
+      ...state,
+      grid: [...state.grid, state.grid[toCopyLayerIndex].map(row => [...row])],
       activeLayer: layers.length,
       layers: [
         ...state.layers,

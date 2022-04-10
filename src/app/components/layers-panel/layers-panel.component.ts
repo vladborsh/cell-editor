@@ -3,6 +3,7 @@ import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { Layer } from 'src/app/interfaces/layer.interface';
 import { AddLayer } from 'src/app/store/actions/add-layer.action';
+import { CopyLayer } from 'src/app/store/actions/copy-layer.action';
 import { DeleteLayer } from 'src/app/store/actions/delete-layer.action';
 import { SaveHistory } from 'src/app/store/actions/save-history.action';
 import { SetActiveLayer } from 'src/app/store/actions/set-layer.action';
@@ -44,6 +45,11 @@ export class LayersPanelComponent implements OnInit {
 
   public onOpacityChange(name: string, event: string): void {
     this.storeService.dispatch(new UpdateLayer({ name, opacity: Number(event) }));
+    this.storeService.dispatch(new SaveHistory());
+  }
+
+  public copyLayer(name: string): void {
+    this.storeService.dispatch(new CopyLayer(name));
     this.storeService.dispatch(new SaveHistory());
   }
 

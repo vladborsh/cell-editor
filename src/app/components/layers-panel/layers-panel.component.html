@@ -37,6 +37,9 @@
           <mat-icon>close</mat-icon>
         </button>
         <mat-menu #layerMenu="matMenu">
+          <button (click)="copyLayer(layer.name)" mat-menu-item>
+            <span>Copy</span>
+          </button>
           <div class="opacity_container">
             <mat-slider
               [ngModel]="layer.opacity"

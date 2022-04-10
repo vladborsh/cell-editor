@@ -1,5 +1,6 @@
 import { AddLayer } from './add-layer.action';
 import { Clear } from './clear.action';
+import { CopyLayer } from './copy-layer.action';
 import { DeleteLayer } from './delete-layer.action';
 import { MoveMouse } from './move-mouse.action';
 import { Redo } from './redo.action';
@@ -31,6 +32,7 @@ export type Actions =
   | UpdateBrushSize
   | UpdateGridSize
   | AddLayer
+  | CopyLayer
   | DeleteLayer
   | UpdateLayer
   | SetActiveLayer;
