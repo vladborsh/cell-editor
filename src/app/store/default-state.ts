@@ -24,6 +24,7 @@ export function getDefaultState(
       {
         name: 'Layer_0',
         opacity: 100,
+        isShown: true,
       },
     ],
     history: [],

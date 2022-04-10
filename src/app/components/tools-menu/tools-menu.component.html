@@ -53,6 +53,14 @@
       >
         <mat-icon>horizontal_rule</mat-icon>
       </button>
+      <button
+        [class._active]="ctx.activeTool === toolsType.PIPET"
+        (click)="onSelectPipet()"
+        class="control-btn"
+        mat-button
+      >
+        <mat-icon>colorize</mat-icon>
+      </button>
       <button (click)="onResizeBrush()" class="control-btn" mat-button>
         <mat-icon>line_weight</mat-icon>
       </button>

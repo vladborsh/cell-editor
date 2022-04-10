@@ -21,6 +21,10 @@
         {{ layer.name }}
       </div>
       <div class="container">
+        <button mat-icon-button (click)="toggleVisibility(layer)" appClickStopPropagation>
+          <mat-icon *ngIf="layer.isShown">visibility</mat-icon>
+          <mat-icon *ngIf="!layer.isShown">visibility_off</mat-icon>
+        </button>
         <button mat-icon-button [matMenuTriggerFor]="layerMenu" appClickStopPropagation>
           <mat-icon>more_vert</mat-icon>
         </button>

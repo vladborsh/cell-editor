@@ -73,12 +73,15 @@ export class RendererService {
 
     const { grid, cellSize, cellNumberX, cellNumberY, layers } = this.store.getSnapshot();
     for (let layer = 0; layer < grid.length; layer++) {
+      if (!layers[layer].isShown || layers[layer].opacity === 0) {
+        continue;
+      }
+      this.canvas.context.globalAlpha = layers[layer].opacity / 100;
       for (let i = 0; i < cellNumberX; i++) {
         for (let j = 0; j < cellNumberY; j++) {
           if (!grid[layer][i][j]) {
             continue;
           }
-          this.canvas.context.globalAlpha = layers[layer].opacity / 100;
           this.canvas.context.fillStyle = `#${grid[layer][i][j]}`;
           this.canvas.context.fillRect(i * cellSize, j * cellSize, cellSize, cellSize);
         }

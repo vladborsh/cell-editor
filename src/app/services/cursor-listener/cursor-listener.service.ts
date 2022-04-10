@@ -121,7 +121,9 @@ export class CursorListenerService {
       }
     }
     if (tool === Tools.PIPET) {
-      this.store.dispatch(new UpdateColor(grid[activeLayer][x][y]));
+      if (grid[activeLayer][x][y]) {
+        this.store.dispatch(new UpdateColor(grid[activeLayer][x][y]));
+      }
     }
     if (tool === Tools.ELLIPSE) {
       this.ellipseTool.onMove({ x, y });

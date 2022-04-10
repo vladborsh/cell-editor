@@ -48,6 +48,10 @@ export class ToolsMenuComponent {
     this.storeService.dispatch(new SetTool(Tools.LINE));
   }
 
+  public onSelectPipet(): void {
+    this.storeService.dispatch(new SetTool(Tools.PIPET));
+  }
+
   public onResizeCanvas(): void {
     this.matDialog.open(ResizeGridComponent);
   }

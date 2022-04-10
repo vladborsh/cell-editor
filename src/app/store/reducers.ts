@@ -192,7 +192,10 @@ export const reducers: Record<
         ),
       ],
       activeLayer: layers.length,
-      layers: [...state.layers, { name: `Layer_${lastLayerIndex + 1}`, opacity: 100 }],
+      layers: [
+        ...state.layers,
+        { name: `Layer_${lastLayerIndex + 1}`, opacity: 100, isShown: true },
+      ],
     };
   },
   [ActionTypes.UPDATE_LAYER]: ({ layer }: UpdateLayer, state: CanvasBoardState) => {

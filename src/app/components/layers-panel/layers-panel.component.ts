@@ -47,6 +47,11 @@ export class LayersPanelComponent implements OnInit {
     this.storeService.dispatch(new SaveHistory());
   }
 
+  public toggleVisibility(layer: Layer): void {
+    this.storeService.dispatch(new UpdateLayer({ name: layer.name, isShown: !layer.isShown }));
+    this.storeService.dispatch(new SaveHistory());
+  }
+
   public trackByName({ name }: Layer): string {
     return name;
   }
