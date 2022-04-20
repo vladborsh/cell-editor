@@ -39,8 +39,8 @@ export class FileExporterService {
   ): string {
     const canvas = document.createElement('canvas');
     const context = canvas.getContext('2d');
-    canvas.width = cellNumberY * cellSize;
-    canvas.height = cellNumberX * cellSize;
+    canvas.width = cellNumberX * cellSize;
+    canvas.height = cellNumberY * cellSize;
 
     for (let layer = 0; layer < grid.length; layer++) {
       for (let i = 0; i < cellNumberX; i++) {
