@@ -2,6 +2,11 @@
   <button mat-icon-button [matMenuTriggerFor]="menu">
     <mat-icon>menu</mat-icon>
   </button>
+  <button *ngIf="isBackShown$ | async" (click)="back()" mat-button class="back-btn">
+    <mat-icon>arrow_back_ios</mat-icon>
+    Back
+  </button>
+
   <span class="spacer"></span>
   {{ username$ | async }}
 </mat-toolbar>

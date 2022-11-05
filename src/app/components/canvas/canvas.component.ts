@@ -61,14 +61,7 @@ export class CanvasComponent implements OnInit, OnDestroy {
     this.canvasHeight$ = this.store.select('canvasHeight');
     this.canvasWidth$ = this.store.select('canvasWidth');
 
-    this.store.isReady$.pipe(filter(Boolean), delay(100), take(1)).subscribe(() => {
-      this.context = this.canvas.nativeElement.getContext('2d');
-      this.canvasService.setCanvas(this.canvas.nativeElement);
-      this.canvasService.setContext(this.context);
-      this.cursorListeners.install();
-      this.keyboardListeners.install();
-      this.renderService.render();
-    });
+    this.setCanvassOnReadiness();
   }
 
   ngOnDestroy(): void {
@@ -99,5 +92,22 @@ export class CanvasComponent implements OnInit, OnDestroy {
           state,
         }),
       );
+  }
+
+  private setCanvassOnReadiness(): void {
+    this.store.isReady$.pipe(filter(Boolean), delay(100), take(1)).subscribe(() => {
+      this.context = this.canvas.nativeElement.getContext('2d');
+      this.canvasService.setCanvas(this.canvas.nativeElement);
+      this.canvasService.setContext(this.context);
+      this.cursorListeners.install();
+      this.keyboardListeners.install();
+
+      const animate = () =>
+        requestAnimationFrame(() => {
+          this.renderService.render(this.context, this.store.getSnapshot());
+          animate();
+        });
+      animate();
+    });
   }
 }

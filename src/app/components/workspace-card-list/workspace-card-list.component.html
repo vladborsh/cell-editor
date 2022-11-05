@@ -1,9 +1,15 @@
-<div class="container">
+<div *ngIf="workspaces$ | async as workspaces; else loader" class="container">
   <app-workspace-card
-    *ngFor="let item of workspaces$ | async; trackBy: trackById"
+    *ngFor="let item of workspaces; trackBy: trackById"
     [workspace]="item"
     (click)="onSelect(item.id)"
     (remove)="onRemove($event)"
     class="container__item"
   ></app-workspace-card>
 </div>
+
+<ng-template #loader>
+  <div class="container">
+    <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+  </div>
+</ng-template>

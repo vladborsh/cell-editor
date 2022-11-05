@@ -1,35 +1,39 @@
 import { Injectable } from '@angular/core';
+import { CanvasBoardState } from 'src/app/interfaces/global-state.interface';
 
 import { Tools } from '../../enums/tools.enum';
-import { CanvasService } from '../canvas/canvas.service';
-import { StoreService } from '../store/store.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class RendererService {
-  constructor(private store: StoreService, private canvas: CanvasService) {}
-
-  public render(): void {
-    this.clearCanvas();
-    this.drawGrid();
-    this.drawToolTemporalLayer();
-    this.drawBrush();
-    requestAnimationFrame(() => this.render.bind(this)());
+  public render(
+    canvasContext: CanvasRenderingContext2D,
+    canvasState: CanvasBoardState,
+    isPreviewMode = false,
+  ): void {
+    this.clearCanvas(canvasContext, canvasState);
+    this.drawGrid(canvasContext, canvasState, isPreviewMode);
+    if (!isPreviewMode) {
+      this.drawToolTemporalLayer(canvasContext, canvasState);
+      this.drawBrush(canvasContext, canvasState);
+    }
   }
 
-  private clearCanvas(): void {
-    if (!this.canvas.context) {
+  private clearCanvas(
+    canvasContext: CanvasRenderingContext2D,
+    canvasState: CanvasBoardState,
+  ): void {
+    if (!canvasContext) {
       return;
     }
 
-    const state = this.store.getSnapshot();
-    this.canvas.context.fillStyle = `#${state.defaultColor}`;
-    this.canvas.context.fillRect(0, 0, state.canvasWidth, state.canvasHeight);
+    canvasContext.fillStyle = `#${canvasState.defaultColor}`;
+    canvasContext.fillRect(0, 0, canvasState.canvasWidth, canvasState.canvasHeight);
   }
 
-  private drawBrush(): void {
-    if (!this.canvas.context) {
+  private drawBrush(canvasContext: CanvasRenderingContext2D, canvasState: CanvasBoardState): void {
+    if (!canvasContext) {
       return;
     }
 
@@ -38,20 +42,20 @@ export class RendererService {
       brushSize,
       cellSize,
       tool,
-    } = this.store.getSnapshot();
+    } = canvasState;
 
-    this.canvas.context.strokeStyle = '#222';
+    canvasContext.strokeStyle = '#222';
 
     if (tool === Tools.BRUSH || tool === Tools.ERASER) {
-      this.canvas.context.beginPath();
-      this.canvas.context.arc(x, y, brushSize * cellSize, 0, 2 * Math.PI);
-      this.canvas.context.stroke();
+      canvasContext.beginPath();
+      canvasContext.arc(x, y, brushSize * cellSize, 0, 2 * Math.PI);
+      canvasContext.stroke();
     }
 
     if (tool === Tools.PIPET) {
-      this.canvas.context.beginPath();
-      this.canvas.context.arc(x, y, cellSize, 0, 2 * Math.PI);
-      this.canvas.context.stroke();
+      canvasContext.beginPath();
+      canvasContext.arc(x, y, cellSize, 0, 2 * Math.PI);
+      canvasContext.stroke();
     }
 
     if (
@@ -60,52 +64,79 @@ export class RendererService {
       tool === Tools.LINE ||
       tool === Tools.RECTANGLE
     ) {
-      this.canvas.context.beginPath();
-      this.canvas.context.arc(x, y, cellSize / 2, 0, 2 * Math.PI);
-      this.canvas.context.stroke();
+      canvasContext.beginPath();
+      canvasContext.arc(x, y, cellSize / 2, 0, 2 * Math.PI);
+      canvasContext.stroke();
     }
   }
 
-  private drawGrid(): void {
-    if (!this.canvas.context) {
+  private drawGrid(
+    canvasContext: CanvasRenderingContext2D,
+    canvasState: CanvasBoardState,
+    isPreviewMode = false,
+  ): void {
+    if (!canvasContext) {
       return;
     }
 
-    const { grid, cellSize, cellNumberX, cellNumberY, layers } = this.store.getSnapshot();
-    for (let layer = 0; layer < grid.length; layer++) {
-      if (!layers[layer].isShown || layers[layer].opacity === 0) {
-        continue;
-      }
-      this.canvas.context.globalAlpha = layers[layer].opacity / 100;
+    const { grid, cellSize, cellNumberX, cellNumberY, layers } = canvasState;
+
+    if (isPreviewMode) {
+      const cellChangedSize = 3;
+
       for (let i = 0; i < cellNumberX; i++) {
         for (let j = 0; j < cellNumberY; j++) {
-          if (!grid[layer][i][j]) {
+          if (!grid[0][i][j]) {
             continue;
           }
-          this.canvas.context.fillStyle = `#${grid[layer][i][j]}`;
-          this.canvas.context.fillRect(i * cellSize, j * cellSize, cellSize, cellSize);
+          canvasContext.fillStyle = `#${grid[0][i][j]}`;
+          canvasContext.fillRect(
+            i * cellChangedSize,
+            j * cellChangedSize,
+            cellChangedSize,
+            cellChangedSize,
+          );
         }
       }
+    } else {
+      for (let layer = 0; layer < grid.length; layer++) {
+        if (!layers[layer].isShown || layers[layer].opacity === 0) {
+          continue;
+        }
+        canvasContext.globalAlpha = layers[layer].opacity / 100;
+        for (let i = 0; i < cellNumberX; i++) {
+          for (let j = 0; j < cellNumberY; j++) {
+            if (!grid[layer][i][j]) {
+              continue;
+            }
+            canvasContext.fillStyle = `#${grid[layer][i][j]}`;
+            canvasContext.fillRect(i * cellSize, j * cellSize, cellSize, cellSize);
+          }
+        }
+      }
+      canvasContext.globalAlpha = 1;
+      canvasContext.lineWidth = 1;
     }
-    this.canvas.context.globalAlpha = 1;
-    this.canvas.context.lineWidth = 1;
   }
 
-  private drawToolTemporalLayer(): void {
-    if (!this.canvas.context) {
+  private drawToolTemporalLayer(
+    canvasContext: CanvasRenderingContext2D,
+    canvasState: CanvasBoardState,
+  ): void {
+    if (!canvasContext) {
       return;
     }
 
-    const { toolTemporalLayer, cellSize, color } = this.store.getSnapshot();
+    const { toolTemporalLayer, cellSize, color } = canvasState;
 
     if (!toolTemporalLayer || !toolTemporalLayer.length) {
       return;
     }
 
-    this.canvas.context.fillStyle = `#${color}`;
+    canvasContext.fillStyle = `#${color}`;
 
     for (const { x, y } of toolTemporalLayer) {
-      this.canvas.context.fillRect(x * cellSize, y * cellSize, cellSize, cellSize);
+      canvasContext.fillRect(x * cellSize, y * cellSize, cellSize, cellSize);
     }
   }
 }
